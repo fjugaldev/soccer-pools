@@ -1,0 +1,25 @@
+###> symfony/framework-bundle ###
+Application/.env
+Application/public/bundles/
+Application/var/
+Application/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+Application/.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> IntelliJ project files ###
+.idea/
+###< IntelliJ project files ###
+
+###> Manzanita things ###
+Application/.DS_Store
+Application/.AppleDouble
+Application/.LSOverride
+###< Manzanita things ###
+
+###> behat/symfony2-extension ###
+Application/behat.yml
+###< behat/symfony2-extension ###
