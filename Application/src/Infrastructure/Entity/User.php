@@ -10,12 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="user")
+ * *@ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"user" = "User", "player" = "Player", "admin" = "Admin"}
  * @ORM\HasLifecycleCallbacks
  */
 class User extends BaseUser
 {
-    const ROLE_DEFAULT = 'ROLE_PLAYER';
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
