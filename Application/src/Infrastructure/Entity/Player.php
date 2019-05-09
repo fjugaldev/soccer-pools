@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace App\Infrastructure\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -9,9 +9,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
-class Admin extends User
+class Player extends User
 {
     use TimestampableEntity;
 
-    const ROLE_DEFAULT = 'ROLE_ADMIN';
+    const ROLE_DEFAULT = 'ROLE_PLAYER';
 }
