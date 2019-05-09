@@ -4,14 +4,17 @@ namespace App\Shared\Infrastructure\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity()
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Team extends BaseEntity
 {
     use TimestampableEntity;
+
+    const SERVER_PATH_TO_IMAGE_FOLDER = './public/uploads/flags';
 
     /**
      * @var string
@@ -38,9 +41,74 @@ class Team extends BaseEntity
     private $flag;
 
     /**
-     * @return string
+     * Unmapped property to handle file uploads
      */
-    public function getName(): string
+    private $file;
+
+    /**
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Manages the copying of the file to the relevant place on the server
+     */
+    public function upload()
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // we use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and target filename as params
+        $this->getFile()->move(
+            self::SERVER_PATH_TO_IMAGE_FOLDER,
+            $this->getFile()->getClientOriginalName()
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->flag = $this->getFile()->getClientOriginalName();
+
+        // clean up the file property as you won't need it anymore
+        $this->setFile(null);
+    }
+
+    /**
+     * Lifecycle callback to upload the file to the server.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function lifecycleFileUpload()
+    {
+        $this->upload();
+    }
+
+    /**
+     * Updates the hash value to force the preUpdate and postUpdate events to fire.
+     */
+    public function refreshUpdated()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -57,9 +125,9 @@ class Team extends BaseEntity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getFifaCode(): string
+    public function getFifaCode(): ?string
     {
         return $this->fifaCode;
     }
@@ -76,9 +144,9 @@ class Team extends BaseEntity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getIso2(): string
+    public function getIso2(): ?string
     {
         return $this->iso2;
     }
@@ -95,9 +163,9 @@ class Team extends BaseEntity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getFlag(): string
+    public function getFlag(): ?string
     {
         return $this->flag;
     }
