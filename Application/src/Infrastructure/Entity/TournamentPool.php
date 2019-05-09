@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace App\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,8 +41,8 @@ class TournamentPool extends BaseEntity
     private $accessCode;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="owningPools")
+     * @var Player
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="owningPools")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     private $owner;
@@ -55,7 +55,7 @@ class TournamentPool extends BaseEntity
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="playingPools")
+     * @ORM\ManyToMany(targetEntity="Player", inversedBy="playingPools")
      * @ORM\JoinTable(name="tournament_pool_players")
      */
     private $players;
@@ -147,18 +147,18 @@ class TournamentPool extends BaseEntity
     }
 
     /**
-     * @return User
+     * @return Player
      */
-    public function getOwner(): User
+    public function getOwner(): Player
     {
         return $this->owner;
     }
 
     /**
-     * @param User $owner
+     * @param Player $owner
      * @return TournamentPool
      */
-    public function setOwner(User $owner): TournamentPool
+    public function setOwner(Player $owner): TournamentPool
     {
         $this->owner = $owner;
 
@@ -193,10 +193,10 @@ class TournamentPool extends BaseEntity
     }
 
     /**
-     * @param User $player
+     * @param Player $player
      * @return TournamentPool
      */
-    public function addPlayer(User $player): TournamentPool
+    public function addPlayer(Player $player): TournamentPool
     {
         if(!$this->players->contains($player)){
             $this->players->add($player);
@@ -209,10 +209,10 @@ class TournamentPool extends BaseEntity
     }
 
     /**
-     * @param User $player
+     * @param Player $player
      * @return TournamentPool
      */
-    public function removePlayer(User $player): TournamentPool
+    public function removePlayer(Player $player): TournamentPool
     {
         if($this->players->contains($player)){
             $this->players->remove($player);

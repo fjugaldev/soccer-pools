@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace App\Infrastructure\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -51,20 +51,6 @@ class Match extends BaseEntity
      * @ORM\Column(type="datetime")
      */
     private $date;
-
-    /**
-     * @var Group
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="")
-     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     */
-    private $group;
-
-    /**
-     * @var TournamentPhase
-     * @ORM\ManyToOne(targetEntity="TournamentPhase", inversedBy="matches")
-     * @ORM\JoinColumn(name="phase_id", referencedColumnName="id")
-     */
-    private $phase;
 
     /**
      * @return Team
@@ -176,44 +162,6 @@ class Match extends BaseEntity
     public function setDate(\DateTime $date): Match
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return Group
-     */
-    public function getGroup(): Group
-    {
-        return $this->group;
-    }
-
-    /**
-     * @param Group $group
-     * @return Match
-     */
-    public function setGroup(Group $group): Match
-    {
-        $this->group = $group;
-
-        return $this;
-    }
-
-    /**
-     * @return TournamentPhase
-     */
-    public function getPhase(): TournamentPhase
-    {
-        return $this->phase;
-    }
-
-    /**
-     * @param TournamentPhase $phase
-     * @return Match
-     */
-    public function setPhase(TournamentPhase $phase): Match
-    {
-        $this->phase = $phase;
 
         return $this;
     }

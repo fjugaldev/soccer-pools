@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace App\Infrastructure\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -41,8 +41,8 @@ class PoolTicket extends BaseEntity
     private $homeScore;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User")
+     * @var Player
+     * @ORM\ManyToOne(targetEntity="Player")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     private $player;
@@ -124,18 +124,18 @@ class PoolTicket extends BaseEntity
     }
 
     /**
-     * @return User
+     * @return Player
      */
-    public function getPlayer(): User
+    public function getPlayer(): Player
     {
         return $this->player;
     }
 
     /**
-     * @param User $player
+     * @param Player $player
      * @return PoolTicket
      */
-    public function setPlayer(User $player): PoolTicket
+    public function setPlayer(Player $player): PoolTicket
     {
         $this->player = $player;
 

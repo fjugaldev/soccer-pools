@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace App\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
-class Group extends BaseEntity
+class Group
 {
     use TimestampableEntity;
 
@@ -44,16 +44,9 @@ class Group extends BaseEntity
      */
     private $teams;
 
-    /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="Match", mappedBy="group")
-     */
-    private $matches;
-
     public function __construct()
     {
         $this->teams = new ArrayCollection();
-        $this->matches = new ArrayCollection();
     }
 
     /**
@@ -142,46 +135,6 @@ class Group extends BaseEntity
     {
         if (!$this->teams->contains($team)) {
             $this->teams->remove($team);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getMatches(): Collection
-    {
-        return $this->matches;
-    }
-
-    /**
-     * @param Match $match
-     * @return Group
-     */
-    public function addMatch(Match $match): Group
-    {
-        if(!$this->matches->contains($match)) {
-            $this->matches->add($match);
-            if(!$match->getGroup() === $this){
-                $match->setGroup($this);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Match $match
-     * @return Group
-     */
-    public function removeMatch(Match $match): Group
-    {
-        if($this->matches->contains($match)) {
-            $this->matches->remove($match);
-            if($match->getGroup() === $this){
-                $match->setGroup(null);
-            }
         }
 
         return $this;
