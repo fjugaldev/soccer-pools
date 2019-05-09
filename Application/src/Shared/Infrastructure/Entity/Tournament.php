@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Entity;
+namespace App\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -73,12 +73,19 @@ class Tournament extends BaseEntity
      */
     private $pools;
 
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="TournamentPhase", mappedBy="tournament")
+     */
+    private $phases;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->matches = new ArrayCollection();
         $this->pools = new ArrayCollection();
+        $this->phases = new ArrayCollection();
     }
 
     /**
@@ -318,6 +325,40 @@ class Tournament extends BaseEntity
             $this->pools->remove($pool);
             if ($pool->getTournament() === $this) {
                 $pool->setTournament(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPhases(): Collection
+    {
+        return $this->phases;
+    }
+
+    public function addPhase(TournamentPhase $tournamentPhase): Tournament
+    {
+        if(!$this->phases->contains($tournamentPhase)) {
+            $this->phases->add($tournamentPhase);
+
+            if(!$tournamentPhase->getTournament() === $this) {
+                $tournamentPhase->setTournament($this);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removePhase(TournamentPhase $tournamentPhase): Tournament
+    {
+        if($this->phases->contains($tournamentPhase)) {
+            $this->phases->remove($tournamentPhase);
+
+            if($tournamentPhase->getTournament() === $this) {
+                $tournamentPhase->setTournament(null);
             }
         }
 
