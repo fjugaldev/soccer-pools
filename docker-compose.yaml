@@ -2,7 +2,7 @@ version: '3'
 
 services:
     app:
-        container_name: soccer_pools_app
+        container_name: sp_app
         build:
             context: ./Infrastructure/app
             args:
@@ -10,50 +10,50 @@ services:
         depends_on:
             - mysql
         volumes:
-            - ./Application:/var/www/html:rw,cached
-            - app_log:/var/www/html/var/log:rw
+#            - ./Application:/var/www/html:rw,cached
+            - ./Application:/var/www/html:rw
         env_file:
             - .env
         environment:
             XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
             PHP_IDE_CONFIG: serverName=${NGINX_HOST}
 
-        mysql:
-            container_name: soccer_pools_mysql
-            build:
-                context: ./Infrastructure/db
-                dockerfile: Dockerfile.mysql
-            volumes:
-                - ./.data/mysql:/var/lib/mysql:rw
-            env_file:
-                - .env
-            ports:
-                - "3306:3306"
+    mysql:
+        container_name: sp_mysql
+        build:
+            context: ./Infrastructure/db
+            dockerfile: Dockerfile.mysql
+        volumes:
+            - ./.data/mysql:/var/lib/mysql:rw
+        env_file:
+            - .env
+        ports:
+            - "3306:3306"
 
-        nginx:
-            container_name: soccer_pools_nginx
-            build:
-                context: ./Infrastructure/nginx
-                args:
-                    - nginx_host=${NGINX_HOST}
-                ports:
-                    - "8008:80"
-                    - "443:443"
-                depends_on:
-                    - app
-                volumes:
-                    - ./Application/public:/var/www/html/public:ro
-                    - ./Infrastructure/nginx/default.template:/etc/nginx/conf.d/default.template
-                    - nginx_log:/var/log/nginx
-                env_file:
-                    - .env
-                command: /bin/bash -c "envsubst '$$NGINX_HOST'
-                    < /etc/nginx/conf.d/default.template
-                    > /etc/nginx/conf.d/default.conf
-                    && exec nginx -g 'daemon off;'"
+    nginx:
+        container_name: sp_nginx
+        build:
+            context: ./Infrastructure/nginx
+            args:
+                - nginx_host=${NGINX_HOST}
+        ports:
+            - "8008:80"
+            - "443:443"
+        depends_on:
+            - app
+        volumes:
+            - ./Application/public:/var/www/html/public:ro
+            - ./Infrastructure/nginx/default.template:/etc/nginx/conf.d/default.template
+            - nginx_log:/var/log/nginx
+        env_file:
+            - .env
+        command: /bin/bash -c "envsubst '$$NGINX_HOST'
+            < /etc/nginx/conf.d/default.template
+            > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
 
 #        redis:
-#            container_name: soccer_pools_redis
+#            container_name: sp_redis
 #            build:
 #                context: ./Infrastructure/redis
 
