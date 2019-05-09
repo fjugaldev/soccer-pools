@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
         libssl-dev \
         pkg-config \
         libpq-dev \
+        vim \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -xe \
