@@ -9,6 +9,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="tournament_group")
  * @ORM\HasLifecycleCallbacks
  */
 class Group extends BaseEntity
@@ -59,7 +60,7 @@ class Group extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -78,7 +79,7 @@ class Group extends BaseEntity
     /**
      * @return string
      */
-    public function getGroupLetter(): string
+    public function getGroupLetter(): ?string
     {
         return $this->groupLetter;
     }
@@ -97,7 +98,7 @@ class Group extends BaseEntity
     /**
      * @return Tournament
      */
-    public function getTournament(): Tournament
+    public function getTournament(): ?Tournament
     {
         return $this->tournament;
     }
@@ -116,7 +117,7 @@ class Group extends BaseEntity
     /**
      * @return Collection
      */
-    public function getTeams(): Collection
+    public function getTeams(): ?Collection
     {
         return $this->teams;
     }
@@ -150,7 +151,7 @@ class Group extends BaseEntity
     /**
      * @return Collection
      */
-    public function getMatches(): Collection
+    public function getMatches(): ?Collection
     {
         return $this->matches;
     }
@@ -185,5 +186,13 @@ class Group extends BaseEntity
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

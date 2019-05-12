@@ -7,6 +7,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="tournament_match")
  * @ORM\HasLifecycleCallbacks
  */
 class Match extends BaseEntity
@@ -54,7 +55,7 @@ class Match extends BaseEntity
 
     /**
      * @var Group
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="")
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="matches")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     private $group;
@@ -69,7 +70,7 @@ class Match extends BaseEntity
     /**
      * @return Team
      */
-    public function getVisitor(): Team
+    public function getVisitor(): ?Team
     {
         return $this->visitor;
     }
@@ -88,7 +89,7 @@ class Match extends BaseEntity
     /**
      * @return int
      */
-    public function getVisitorScore(): int
+    public function getVisitorScore(): ?int
     {
         return $this->visitorScore;
     }
@@ -107,7 +108,7 @@ class Match extends BaseEntity
     /**
      * @return Team
      */
-    public function getHome(): Team
+    public function getHome(): ?Team
     {
         return $this->home;
     }
@@ -126,7 +127,7 @@ class Match extends BaseEntity
     /**
      * @return int
      */
-    public function getHomeScore(): int
+    public function getHomeScore(): ?int
     {
         return $this->homeScore;
     }
@@ -145,7 +146,7 @@ class Match extends BaseEntity
     /**
      * @return Tournament
      */
-    public function getTournament(): Tournament
+    public function getTournament(): ?Tournament
     {
         return $this->tournament;
     }
@@ -164,7 +165,7 @@ class Match extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
@@ -183,7 +184,7 @@ class Match extends BaseEntity
     /**
      * @return Group
      */
-    public function getGroup(): Group
+    public function getGroup(): ?Group
     {
         return $this->group;
     }
@@ -202,7 +203,7 @@ class Match extends BaseEntity
     /**
      * @return TournamentPhase
      */
-    public function getPhase(): TournamentPhase
+    public function getPhase(): ?TournamentPhase
     {
         return $this->phase;
     }

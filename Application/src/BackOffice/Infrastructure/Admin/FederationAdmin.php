@@ -2,7 +2,7 @@
 
 namespace App\BackOffice\Infrastructure\Admin;
 
-use App\Shared\Infrastructure\Entity\Team;
+use App\Shared\Infrastructure\Entity\Federation;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TeamAdmin extends AbstractAdmin
+class FederationAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -25,24 +25,20 @@ class TeamAdmin extends AbstractAdmin
             $basePath = $container->get('request_stack')->getCurrentRequest()->getBasePath();
             $basePath = 'http://localhost:8008';
             $fullPath = $basePath.'/'.$webPath;
-
             $preview = $image->getFile() !== null
                 ? '<img src="'.$fullPath.'" class="admin-preview" style="border: 1px solid #000; width: 10%;" />'
                 : '';
+
             // add a 'help' option containing the preview's img tag
             $fileFieldOptions = [
                 'help' => $preview,
                 'required' => true,
-                'label' => 'Flag',
+                'label' => 'Logo',
             ];
         }
 
         $formMapper
             ->add('name', TextType::class)
-            ->add('fifaCode', TextType::class)
-            ->add('iso2', TextType::class, [
-                'label' => 'ISO 2'
-            ])
             ->add('file', FileType::class, $fileFieldOptions)
         ;
     }
@@ -57,10 +53,10 @@ class TeamAdmin extends AbstractAdmin
         $this->manageFileUpload($team);
     }
 
-    private function manageFileUpload(Team $team)
+    private function manageFileUpload(Federation $federation)
     {
-        if ($team->getFile()) {
-            $team->refreshUpdated();
+        if ($federation->getFile()) {
+            $federation->refreshUpdated();
         }
     }
 
@@ -68,8 +64,6 @@ class TeamAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('name')
-            ->add('fifaCode')
-            ->add('iso2')
         ;
     }
 
@@ -77,9 +71,7 @@ class TeamAdmin extends AbstractAdmin
     {
         $listMapper->addIdentifier('id');
         $listMapper->addIdentifier('name');
-        $listMapper->add('fifaCode');
-        $listMapper->add('iso2');
-        $listMapper->add('flag', null, [
+        $listMapper->add('logo', null, [
             'template' => "Admin/Team/list_thumb.html.twig"
         ]);
     }

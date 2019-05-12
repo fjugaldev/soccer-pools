@@ -27,3 +27,9 @@ Application/behat.yml
 ###> MySQL Local DB ###
 .data/
 ###< MySQL Local DB ###
+
+###> PUBLIC ASSETS ###
+Application/assets
+Application/public/uploads
+Application/public/assets
+###< PUBLIC ASSETS ###
