@@ -2,6 +2,8 @@
 
 namespace App\Shared\Infrastructure\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -10,40 +12,86 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
-class Team extends BaseEntity
+class Federation extends BaseEntity
 {
     use TimestampableEntity;
 
-    const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/flags';
+    const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/federations';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=150)
      */
     private $name;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=3)
-     */
-    private $fifaCode;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=2)
-     */
-    private $iso2;
-
-    /**
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $flag;
+    private $logo;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="Tournament", mappedBy="federation")
+     */
+    private $tournaments;
 
     /**
      * Unmapped property to handle file uploads
      */
     private $file;
+
+    public function __construct()
+    {
+        $this->tournaments =  new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Federation
+     */
+    public function setName(string $name): Federation
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param string $logo
+     * @return Federation
+     */
+    public function setLogo(string $logo): Federation
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTournaments(): Collection
+    {
+        return $this->tournaments;
+    }
 
     /**
      * @param UploadedFile $file
@@ -81,7 +129,7 @@ class Team extends BaseEntity
         );
 
         // set the path property to the filename where you've saved the file
-        $this->flag = $this->getFile()->getClientOriginalName();
+        $this->logo = $this->getFile()->getClientOriginalName();
 
         // clean up the file property as you won't need it anymore
         $this->setFile(null);
@@ -106,87 +154,11 @@ class Team extends BaseEntity
     }
 
     /**
-     * @return null|string
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Team
-     */
-    public function setName(string $name): Team
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFifaCode(): ?string
-    {
-        return $this->fifaCode;
-    }
-
-    /**
-     * @param string $fifaCode
-     * @return Team
-     */
-    public function setFifaCode(string $fifaCode): Team
-    {
-        $this->fifaCode = $fifaCode;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getIso2(): ?string
-    {
-        return $this->iso2;
-    }
-
-    /**
-     * @param string $iso2
-     * @return Team
-     */
-    public function setIso2(string $iso2): Team
-    {
-        $this->iso2 = $iso2;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFlag(): ?string
-    {
-        return $this->flag;
-    }
-
-    /**
-     * @param string $flag
-     * @return Team
-     */
-    public function setFlag(string $flag): Team
-    {
-        $this->flag = $flag;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getWebPath(): string
     {
-        return self::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$this->getFlag();
+        return self::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$this->getLogo();
     }
 
     /**
@@ -194,8 +166,6 @@ class Team extends BaseEntity
      */
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->name;
     }
-
-
 }

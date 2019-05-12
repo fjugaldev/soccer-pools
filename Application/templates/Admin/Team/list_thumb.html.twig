@@ -1,0 +1,17 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% if object.flag is defined %}
+       {% set image = 'flags/' ~ object.flag %}
+    {% elseif object.logo is defined %}
+        {% if object is instanceOf('App\\Shared\\Infrastructure\\Entity\\Tournament') %}
+            {% set image = 'logos/tournaments/' ~ object.logo %}
+        {% elseif object is instanceOf('App\\Shared\\Infrastructure\\Entity\\Federation') %}
+            {% set image = 'logos/federations/' ~ object.logo %}
+        {% endif %}
+    {% endif %}
+
+    {% if image is defined %}
+        <img class="img-responsive" width="10%"  alt="{{ object.name }}" src="{{ asset('uploads/' ~ image) }}" /> {# or you can use a twig filter with your own logic #}
+    {% endif %}
+{% endblock field %}

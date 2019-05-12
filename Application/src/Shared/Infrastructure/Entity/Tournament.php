@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity()
@@ -14,6 +15,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Tournament extends BaseEntity
 {
     use TimestampableEntity;
+
+    const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/tournaments';
 
     /**
      * @var string
@@ -44,6 +47,13 @@ class Tournament extends BaseEntity
      * @ORM\Column(type="string", length=255)
      */
     private $logo;
+
+    /**
+     * @var Federation
+     * @ORM\ManyToOne(targetEntity="Federation", inversedBy="tournaments")
+     * @ORM\JoinColumn(name="federation_id", referencedColumnName="id")
+     */
+    private $federation;
 
     /**
      * @var Collection
@@ -79,6 +89,11 @@ class Tournament extends BaseEntity
      */
     private $phases;
 
+    /**
+     * Unmapped property to handle file uploads
+     */
+    private $file;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -89,9 +104,69 @@ class Tournament extends BaseEntity
     }
 
     /**
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    /**
+     * Manages the copying of the file to the relevant place on the server
+     */
+    public function upload(): void
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // we use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and target filename as params
+        $this->getFile()->move(
+            self::SERVER_PATH_TO_IMAGE_FOLDER,
+            $this->getFile()->getClientOriginalName()
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->logo = $this->getFile()->getClientOriginalName();
+
+        // clean up the file property as you won't need it anymore
+        $this->setFile(null);
+    }
+
+    /**
+     * Lifecycle callback to upload the file to the server.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function lifecycleFileUpload(): void
+    {
+        $this->upload();
+    }
+
+    /**
+     * Updates the hash value to force the preUpdate and postUpdate events to fire.
+     */
+    public function refreshUpdated(): void
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -110,7 +185,7 @@ class Tournament extends BaseEntity
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -129,7 +204,7 @@ class Tournament extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getFromDate(): \DateTime
+    public function getFromDate(): ?\DateTime
     {
         return $this->fromDate;
     }
@@ -148,7 +223,7 @@ class Tournament extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getToDate(): \DateTime
+    public function getToDate(): ?\DateTime
     {
         return $this->toDate;
     }
@@ -167,7 +242,7 @@ class Tournament extends BaseEntity
     /**
      * @return string
      */
-    public function getLogo(): string
+    public function getLogo(): ?string
     {
         return $this->logo;
     }
@@ -184,11 +259,30 @@ class Tournament extends BaseEntity
     }
 
     /**
+     * @return Federation
+     */
+    public function getFederation(): ?Federation
+    {
+        return $this->federation;
+    }
+
+    /**
+     * @param Federation $federation
+     * @return Tournament
+     */
+    public function setFederation(Federation $federation): Tournament
+    {
+        $this->federation = $federation;
+
+        return $this;
+    }
+
+    /**
      * @return Collection
      */
-    public function getTeams(): Collection
+    public function getTeams(): ?Collection
     {
-        return $this->groups;
+        return $this->teams;
     }
 
     /**
@@ -220,7 +314,7 @@ class Tournament extends BaseEntity
     /**
      * @return Collection
      */
-    public function getGroups(): Collection
+    public function getGroups(): ?Collection
     {
         return $this->groups;
     }
@@ -258,7 +352,7 @@ class Tournament extends BaseEntity
     /**
      * @return Collection
      */
-    public function getMatches(): Collection
+    public function getMatches(): ?Collection
     {
         return $this->matches;
     }
@@ -296,7 +390,7 @@ class Tournament extends BaseEntity
     /**
      * @return Collection
      */
-    public function getPools(): Collection
+    public function getPools(): ?Collection
     {
         return $this->pools;
     }
@@ -334,11 +428,15 @@ class Tournament extends BaseEntity
     /**
      * @return Collection
      */
-    public function getPhases(): Collection
+    public function getPhases(): ?Collection
     {
         return $this->phases;
     }
 
+    /**
+     * @param TournamentPhase $tournamentPhase
+     * @return Tournament
+     */
     public function addPhase(TournamentPhase $tournamentPhase): Tournament
     {
         if(!$this->phases->contains($tournamentPhase)) {
@@ -352,6 +450,10 @@ class Tournament extends BaseEntity
         return $this;
     }
 
+    /**
+     * @param TournamentPhase $tournamentPhase
+     * @return Tournament
+     */
     public function removePhase(TournamentPhase $tournamentPhase): Tournament
     {
         if($this->phases->contains($tournamentPhase)) {
@@ -363,5 +465,21 @@ class Tournament extends BaseEntity
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebPath(): string
+    {
+        return self::SERVER_PATH_TO_IMAGE_FOLDER.'/'.$this->getLogo();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

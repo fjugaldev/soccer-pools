@@ -24,6 +24,12 @@ class TournamentPool extends BaseEntity
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
+
+    /**
+     * @var string
      * @ORM\Column(type="text")
      */
     private $description;
@@ -36,7 +42,7 @@ class TournamentPool extends BaseEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $accessCode;
 
@@ -52,6 +58,36 @@ class TournamentPool extends BaseEntity
      * @ORM\Column(type="integer")
      */
     private $maxPlayers;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hitVictoryPoints;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hitTiePoints;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hitScorePoints;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hitHomeScorePoints;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hitVisitorScorePoints;
 
     /**
      * @var Collection
@@ -75,7 +111,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return Tournament
      */
-    public function getTournament(): Tournament
+    public function getTournament(): ?Tournament
     {
         return $this->tournament;
     }
@@ -87,12 +123,33 @@ class TournamentPool extends BaseEntity
     public function setTournament(Tournament $tournament): TournamentPool
     {
         $this->tournament = $tournament;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return TournamentPool
+     */
+    public function setName(string $name): TournamentPool
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -111,7 +168,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return bool
      */
-    public function isPrivate(): bool
+    public function isPrivate(): ?bool
     {
         return $this->private;
     }
@@ -130,7 +187,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return string
      */
-    public function getAccessCode(): string
+    public function getAccessCode(): ?string
     {
         return $this->accessCode;
     }
@@ -149,7 +206,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return User
      */
-    public function getOwner(): User
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
@@ -168,7 +225,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return int
      */
-    public function getMaxPlayers(): int
+    public function getMaxPlayers(): ?int
     {
         return $this->maxPlayers;
     }
@@ -185,9 +242,104 @@ class TournamentPool extends BaseEntity
     }
 
     /**
+     * @return int
+     */
+    public function getHitVictoryPoints(): ?int
+    {
+        return $this->hitVictoryPoints;
+    }
+
+    /**
+     * @param int $hitVictoryPoints
+     * @return TournamentPool
+     */
+    public function setHitVictoryPoints(int $hitVictoryPoints): TournamentPool
+    {
+        $this->hitVictoryPoints = $hitVictoryPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHitTiePoints(): ?int
+    {
+        return $this->hitTiePoints;
+    }
+
+    /**
+     * @param int $hitTiePoints
+     * @return TournamentPool
+     */
+    public function setHitTiePoints(int $hitTiePoints): TournamentPool
+    {
+        $this->hitTiePoints = $hitTiePoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHitScorePoints(): ?int
+    {
+        return $this->hitScorePoints;
+    }
+
+    /**
+     * @param int $hitScorePoints
+     * @return TournamentPool
+     */
+    public function setHitScorePoints(int $hitScorePoints): TournamentPool
+    {
+        $this->hitScorePoints = $hitScorePoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHitHomeScorePoints(): ?int
+    {
+        return $this->hitHomeScorePoints;
+    }
+
+    /**
+     * @param int $hitHomeScorePoints
+     * @return TournamentPool
+     */
+    public function setHitHomeScorePoints(int $hitHomeScorePoints): TournamentPool
+    {
+        $this->hitHomeScorePoints = $hitHomeScorePoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHitVisitorScorePoints(): ?int
+    {
+        return $this->hitVisitorScorePoints;
+    }
+
+    /**
+     * @param int $hitVisitorScorePoints
+     * @return TournamentPool
+     */
+    public function setHitVisitorScorePoints(int $hitVisitorScorePoints): TournamentPool
+    {
+        $this->hitVisitorScorePoints = $hitVisitorScorePoints;
+
+        return $this;
+    }
+
+    /**
      * @return Collection
      */
-    public function getPlayers(): Collection
+    public function getPlayers(): ?Collection
     {
         return $this->players;
     }
@@ -225,7 +377,7 @@ class TournamentPool extends BaseEntity
     /**
      * @return Collection
      */
-    public function getPoolTickets(): Collection
+    public function getPoolTickets(): ?Collection
     {
         return $this->poolTickets;
     }

@@ -36,23 +36,26 @@ class TournamentPhase extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
+     * @return TournamentPhase
      */
-    public function setName(string $name): void
+    public function setName(string $name): TournamentPhase
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
      * @return Tournament
      */
-    public function getTournament(): Tournament
+    public function getTournament(): ?Tournament
     {
         return $this->tournament;
     }
@@ -71,8 +74,16 @@ class TournamentPhase extends BaseEntity
     /**
      * @return Collection
      */
-    public function getMatches(): Collection
+    public function getMatches(): ?Collection
     {
         return $this->matches;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

@@ -58,7 +58,7 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -77,7 +77,7 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -96,7 +96,7 @@ class User extends BaseUser
     /**
      * @return Collection
      */
-    public function getOwningPools(): Collection
+    public function getOwningPools(): ?Collection
     {
         return $this->owningPools;
     }
@@ -104,7 +104,7 @@ class User extends BaseUser
     /**
      * @return Collection
      */
-    public function getPlayingPools(): Collection
+    public function getPlayingPools(): ?Collection
     {
         return $this->playingPools;
     }
