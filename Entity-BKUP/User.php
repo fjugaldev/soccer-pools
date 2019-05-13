@@ -1,47 +1,52 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use FOS\UserBundle\Model\User as FOSBaseUser;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\MAppRooting as ORM;
 
-class User extends FOSBaseUser
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="user")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"user" = "User", "player" = "Player", "admin" = "Admin"})
+ * @ORM\HasLifecycleCallbacks
+ */
+class User extends BaseUser
 {
     /**
-     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=100)
      */
     protected $firstName;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=100)
      */
     protected $lastName;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="TournamentPool", mAppRootedBy="owner")
      */
     protected $owningPools;
 
     /**
      * @var Collection
+     * @ORM\ManyToMany(targetEntity="TournamentPool", mAppRootedBy="players")
      */
     protected $playingPools;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
 
     public function __construct()
     {
@@ -132,30 +137,5 @@ class User extends FOSBaseUser
                 $pool->removePlayer($this);
             }
         }
-    }
-
-    /**
-     * @return \DateTime|null
-     */
-    public function getCreatedAt(): ?\DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTime|null
-     */
-    public function getUpdatedAt(): ?\DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    public function updateTimestamps(): void
-    {
-        if ($this->createdAt === null) {
-            $this->createdAt = new \DateTime();
-        }
-
-        $this->updatedAt = new \DateTime();
     }
 }

@@ -1,51 +1,69 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="tournament_match")
+ * @ORM\HasLifecycleCallbacks
+ */
 class Match extends BaseEntity
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    use TimestampableEntity;
 
     /**
      * @var Team
+     * @ORM\ManyToOne(targetEntity="Team")
+     * @ORM\JoinColumn(name="visitor_id", referencedColumnName="id")
      */
     private $visitor;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $visitorScore;
 
     /**
      * @var Team
+     * @ORM\ManyToOne(targetEntity="Team")
+     * @ORM\JoinColumn(name="home_id", referencedColumnName="id")
      */
     private $home;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $homeScore;
 
     /**
      * @var Tournament
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="matches")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
     private $tournament;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
     /**
      * @var Group
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="matches")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     private $group;
 
     /**
      * @var TournamentPhase
+     * @ORM\ManyToOne(targetEntity="TournamentPhase", inversedBy="matches")
+     * @ORM\JoinColumn(name="phase_id", referencedColumnName="id")
      */
     private $phase;
 

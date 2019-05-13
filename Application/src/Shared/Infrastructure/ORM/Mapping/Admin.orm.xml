@@ -1,0 +1,8 @@
+<doctrine-mapping>
+    <entity name="App\Shared\Infrastructure\Entity\Admin">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+    </entity>
+</doctrine-mapping>

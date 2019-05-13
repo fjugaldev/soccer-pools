@@ -1,40 +1,47 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class Team extends BaseEntity
 {
+    use TimestampableEntity;
+
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/flags';
 
     /**
-     * @var int
-     */
-    protected $id;
-
-    /**
      * @var string
+     * @ORM\Column(type="string", length=100)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=3)
      */
     private $fifaCode;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=2)
      */
     private $iso2;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $flag;
 
     /**
-     * Unmapped property to handle file uploads
+     * UnmAppRooted property to handle file uploads
      */
     private $file;
 
@@ -82,6 +89,8 @@ class Team extends BaseEntity
 
     /**
      * Lifecycle callback to upload the file to the server.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function lifecycleFileUpload(): void
     {

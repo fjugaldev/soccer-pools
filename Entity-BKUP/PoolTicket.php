@@ -1,36 +1,49 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class PoolTicket extends BaseEntity
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    use TimestampableEntity;
 
     /**
      * @var TournamentPool
+     * @ORM\ManyToOne(targetEntity="TournamentPool", inversedBy="poolTickets")
+     * @ORM\JoinColumn(name="pool_id", referencedColumnName="id")
+     *
      */
     private $pool;
 
     /**
      * @var Match
+     * @ORM\ManyToOne(targetEntity="Match")
+     * @ORM\JoinColumn(name="match_id", referencedColumnName="id")
      */
     private $match;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $visitorScore;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $homeScore;
 
     /**
      * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     private $player;
 

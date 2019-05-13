@@ -1,77 +1,96 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class Tournament extends BaseEntity
 {
+    use TimestampableEntity;
+
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/tournaments';
 
     /**
-     * @var int
-     */
-    protected $id;
-
-    /**
      * @var string
+     * @ORM\Column(type="string", length=120)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $fromDate;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $toDate;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $logo;
 
     /**
      * @var Federation
+     * @ORM\ManyToOne(targetEntity="Federation", inversedBy="tournaments")
+     * @ORM\JoinColumn(name="federation_id", referencedColumnName="id")
      */
     private $federation;
 
     /**
      * @var Collection
+     * @ORM\ManyToMany(targetEntity="Team")
+     * @ORM\JoinTable(name="tournament_teams",
+     *     joinColumns={@ORM\JoinColumn(name="tournament_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="team_id", referencedColumnName="id")}
+     * )
      */
     private $teams;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="Group", mAppRootedBy="tournament")
      */
     private $groups;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="Match", mAppRootedBy="tournament")
      */
     private $matches;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="TournamentPool", mAppRootedBy="tournament")
      */
     private $pools;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="TournamentPhase", mAppRootedBy="tournament")
      */
     private $phases;
 
     /**
-     * Unmapped property to handle file uploads
+     * UnmAppRooted property to handle file uploads
      */
     private $file;
 
@@ -128,6 +147,8 @@ class Tournament extends BaseEntity
 
     /**
      * Lifecycle callback to upload the file to the server.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function lifecycleFileUpload(): void
     {
