@@ -1,84 +1,104 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class TournamentPool extends BaseEntity
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    use TimestampableEntity;
 
     /**
      * @var Tournament
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="pools")
+     * @ORM\JoinColumn(name="tournament_it", referencedColumnName="id")
      */
     private $tournament;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=100)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
      * @var bool
+     * @ORM\Column(type="boolean", options={"default": false})
      */
     private $private;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $accessCode;
 
     /**
      * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="owningPools")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     private $owner;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $maxPlayers;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $hitVictoryPoints;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $hitTiePoints;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $hitScorePoints;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $hitHomeScorePoints;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $hitVisitorScorePoints;
 
     /**
      * @var Collection
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="playingPools")
+     * @ORM\JoinTable(name="tournament_pool_players")
      */
     private $players;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="PoolTicket", mAppRootedBy="pool")
      */
     private $poolTickets;
 

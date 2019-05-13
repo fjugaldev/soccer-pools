@@ -1,39 +1,53 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="tournament_group")
+ * @ORM\HasLifecycleCallbacks
+ */
 class Group extends BaseEntity
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    use TimestampableEntity;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=25)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=2)
      */
     private $groupLetter;
 
     /**
      * @var Tournament
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="groups")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
     private $tournament;
 
     /**
      * @var Collection
+     * @ORM\ManyToMany(targetEntity="Team")
+     * @ORM\JoinTable(name="group_teams",
+     *     joinColumns={@ORM\JoinColumn(name="tournament_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
      */
     private $teams;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="Match", mAppRootedBy="group")
      */
     private $matches;
 

@@ -1,28 +1,35 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\Collection;
+Use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class TournamentPhase extends BaseEntity
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    use TimestampableEntity;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=100)
      */
     private $name;
 
     /**
      * @var Tournament
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="phases")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
     private $tournament;
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="Match", mAppRootedBy="phase")
      */
     private $matches;
 

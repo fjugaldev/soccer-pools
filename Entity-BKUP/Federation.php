@@ -1,37 +1,44 @@
 <?php
 
-namespace App\Shared\Infrastructure\Entity;
+namespace AppRoot\Shared\Infrastructure\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\MAppRooting as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
+ */
 class Federation extends BaseEntity
 {
+    use TimestampableEntity;
+
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/federations';
 
     /**
-     * @var int
-     */
-    protected $id;
-
-    /**
      * @var string
+     * @ORM\Column(type="string", length=150)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $logo;
 
     /**
      * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="Tournament", mAppRootedBy="federation")
      */
     private $tournaments;
 
     /**
-     * Unmapped property to handle file uploads
+     * UnmAppRooted property to handle file uploads
      */
     private $file;
 
@@ -130,6 +137,8 @@ class Federation extends BaseEntity
 
     /**
      * Lifecycle callback to upload the file to the server.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function lifecycleFileUpload(): void
     {
