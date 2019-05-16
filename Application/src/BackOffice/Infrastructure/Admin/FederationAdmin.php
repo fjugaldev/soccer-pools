@@ -2,7 +2,7 @@
 
 namespace App\BackOffice\Infrastructure\Admin;
 
-use App\Shared\Infrastructure\Entity\Federation;
+use App\Api\Shared\Domain\Model\Federation;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;

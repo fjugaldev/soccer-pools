@@ -2,7 +2,7 @@
 
 namespace App\BackOffice\Infrastructure\Admin;
 
-use App\Shared\Infrastructure\Entity\Tournament;
+use App\Api\Shared\Domain\Model\Tournament;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;

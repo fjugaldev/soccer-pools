@@ -2,7 +2,7 @@
 
 namespace App\BackOffice\Infrastructure\Admin;
 
-use App\Shared\Infrastructure\Entity\Team;
+use App\Api\Shared\Domain\Model\Team;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
