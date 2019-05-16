@@ -1,3 +1,7 @@
 controllers:
     resource: ../../src/Shared/Infrastructure/Controller/
     type: annotation
+
+api_controllers:
+    resource: ../../src/Api/
+    type: annotation

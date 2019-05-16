@@ -1,0 +1,24 @@
+<doctrine-mapping>
+    <entity name="App\Api\Shared\Domain\Model\PoolTicket">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <many-to-one field="pool" target-entity="App\Api\Shared\Domain\Model\TournamentPool" inversed-by="poolTickets">
+            <join-column name="pool_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="match" target-entity="App\Api\Shared\Domain\Model\Match">
+            <join-column name="match_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="visitorScore" type="integer" />
+        <field name="homeScore" type="integer" />
+        <many-to-one field="player" target-entity="App\Api\Shared\Domain\Model\User">
+            <join-column name="player_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="createdAt" type="datetime" />
+        <field name="updatedAt" type="datetime" />
+    </entity>
+</doctrine-mapping>

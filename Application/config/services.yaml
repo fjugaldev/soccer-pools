@@ -24,53 +24,57 @@ services:
         resource: '../src/Shared/Infrastructure/Controller'
         tags: ['controller.service_arguments']
 
+    App\Api\:
+        resource: '../src/Api/*/Infrastructure/Controller'
+        tags: ['controller.service_arguments']
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
     admin.team:
         class: App\BackOffice\Infrastructure\Admin\TeamAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\Team, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\Team, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: General, label: Teams }
 
     admin.tournament:
         class: App\BackOffice\Infrastructure\Admin\TournamentAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\Tournament, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\Tournament, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournaments }
 
     admin.group:
         class: App\BackOffice\Infrastructure\Admin\GroupAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\Group, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\Group, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournament Groups }
 
     admin.tournament_phase:
         class: App\BackOffice\Infrastructure\Admin\TournamentPhaseAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\TournamentPhase, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\TournamentPhase, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Phases' }
 
     admin.tournament_pool:
         class: App\BackOffice\Infrastructure\Admin\TournamentPoolAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\TournamentPool, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\TournamentPool, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Pools' }
 
     admin.user:
         class: App\BackOffice\Infrastructure\Admin\UserAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\User, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\User, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: General, label: 'Users' }
 
     admin.federation:
         class: App\BackOffice\Infrastructure\Admin\FederationAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\Federation, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\Federation, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: General, label: 'Federations' }
 
     admin.match:
         class: App\BackOffice\Infrastructure\Admin\MatchAdmin
-        arguments: [~, App\Shared\Infrastructure\Entity\Match, ~]
+        arguments: [~, App\Api\Shared\Domain\Model\Match, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Matches' }

@@ -1,0 +1,31 @@
+<doctrine-mapping>
+    <entity name="App\Api\Shared\Domain\Model\Match" table="tournament_match">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+        <many-to-one field="visitor" target-entity="App\Api\Shared\Domain\Model\Team">
+            <join-column name="visitor_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="visitorScore" type="integer"/>
+        <many-to-one field="home" target-entity="App\Api\Shared\Domain\Model\Team">
+            <join-column name="home_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="homeScore" type="integer" />
+        <many-to-one field="tournament" target-entity="App\Api\Shared\Domain\Model\Tournament" inversed-by="matches">
+            <join-column name="tournament_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="date" type="datetime" />
+        <many-to-one field="group" target-entity="App\Api\Shared\Domain\Model\Group" inversed-by="matches">
+            <join-column name="group_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="phase" target-entity="App\Api\Shared\Domain\Model\TournamentPhase" inversed-by="matches">
+            <join-column name="phase_id" referenced-column-name="id" />
+        </many-to-one>
+        <field name="createdAt" type="datetime" />
+        <field name="updatedAt" type="datetime" />
+    </entity>
+</doctrine-mapping>

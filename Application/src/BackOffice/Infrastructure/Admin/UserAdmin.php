@@ -20,8 +20,6 @@ class UserAdmin  extends AbstractAdmin
 
         $rolesChoices = self::flattenRoles($roles);
 
-        dump($rolesChoices);
-
         $formMapper
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)

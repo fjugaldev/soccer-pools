@@ -1,0 +1,37 @@
+<doctrine-mapping>
+    <entity name="App\Api\Shared\Domain\Model\Tournament">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="lifecycleFileUpload" />
+            <lifecycle-callback type="preUpdate" method="lifecycleFileUpload" />
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="name" type="string" length="120" />
+        <field name="description" type="text" />
+        <field name="fromDate" type="datetime" />
+        <field name="toDate" type="datetime" />
+        <field name="logo" type="string" length="255"/>
+        <many-to-one field="federation" target-entity="App\Api\Shared\Domain\Model\Federation" inversed-by="tournaments">
+            <join-column name="federation_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-many field="teams" target-entity="App\Api\Shared\Domain\Model\Team">
+            <join-table name="tournament_teams">
+                <join-columns>
+                    <join-column name="tournament_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="team_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <one-to-many field="groups" target-entity="App\Api\Shared\Domain\Model\Group" mapped-by="tournament" />
+        <one-to-many field="matches" target-entity="App\Api\Shared\Domain\Model\Match" mapped-by="tournament" />
+        <one-to-many field="pools" target-entity="App\Api\Shared\Domain\Model\TournamentPool" mapped-by="tournament" />
+        <one-to-many field="phases" target-entity="App\Api\Shared\Domain\Model\TournamentPhase" mapped-by="tournament" />
+        <field name="createdAt" type="datetime" />
+        <field name="updatedAt" type="datetime" />
+    </entity>
+</doctrine-mapping>
