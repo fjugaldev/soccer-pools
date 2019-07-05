@@ -1,0 +1,8 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    <a href="{{ path('admin_user_edit', { id: object.player.id }) }}">
+        {{ object.player.firstName }} {{ object.player.lastName}}
+        <br />
+        {{ object.player.username }}
+    </a>
+{% endblock %}
