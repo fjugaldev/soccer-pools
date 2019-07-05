@@ -1,0 +1,6 @@
+{
+    "require": {
+        "sonata-project/doctrine-orm-admin-bundle": "^3.9",
+        "ramsey/uuid": "^3.8"
+    }
+}

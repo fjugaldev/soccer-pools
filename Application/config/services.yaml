@@ -20,9 +20,71 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Infrastructure\Controller\:
-        resource: '../src/Infrastructure/Controller'
-        tags: ['controller.service_arguments']
+
+    App\UI\Cli\Command\:
+        resource: '../src/UI/Cli/Command'
+
+    App\UI\Http\Rest\Controller\:
+        resource: '../src/UI/Http/Rest/Controller/*'
+        tags: [ 'controller.service_arguments' ]
+
+    App\UI\Http\Web\Controller\:
+        resource: '../src/UI/Http/Web/Controller/*'
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    admin.team:
+        class: App\UI\Http\BackOffice\Admin\TeamAdmin
+        arguments: [~, App\Domain\Team\ValueObject\Team, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: General, label: Teams }
+
+    admin.tournament:
+        class: App\UI\Http\BackOffice\Admin\TournamentAdmin
+        arguments: [~, App\Domain\Tournament\ValueObject\Tournament, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournaments }
+
+    admin.group:
+        class: App\UI\Http\BackOffice\Admin\GroupAdmin
+        arguments: [~, App\Domain\Group\ValueObject\Group, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournament Groups }
+
+    admin.tournament_phase:
+        class: App\UI\Http\BackOffice\Admin\TournamentPhaseAdmin
+        arguments: [~, App\Domain\TournamentPhase\ValueObject\TournamentPhase, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Phases' }
+
+    admin.tournament_pool:
+        class: App\UI\Http\BackOffice\Admin\TournamentPoolAdmin
+        arguments: [~, App\Domain\TournamentPool\ValueObject\TournamentPool, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Pools' }
+
+    admin.user:
+        class: App\UI\Http\BackOffice\Admin\UserAdmin
+        arguments: [~, App\Domain\User\ValueObject\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: General, label: 'Users' }
+
+    admin.federation:
+        class: App\UI\Http\BackOffice\Admin\FederationAdmin
+        arguments: [~, App\Domain\Federation\ValueObject\Federation, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: General, label: 'Federations' }
+
+    admin.match:
+        class: App\UI\Http\BackOffice\Admin\MatchAdmin
+        arguments: [~, App\Domain\Match\ValueObject\Match, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Matches' }
+
+    admin.pool_ticket:
+        class: App\UI\Http\BackOffice\Admin\PoolTicketAdmin
+        arguments: [~, App\Domain\PoolTicket\ValueObject\PoolTicket, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Pool Tickets' }

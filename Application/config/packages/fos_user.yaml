@@ -1,7 +1,7 @@
 fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
-    user_class: App\Infrastructure\Entity\User
+    user_class: App\Api\Shared\Domain\Model\User
     from_email:
         address: "fjugal.dev@franciscougalde.com"
         sender_name: "Francisco Ugalde"

@@ -23,3 +23,13 @@ Application/.LSOverride
 ###> behat/symfony2-extension ###
 Application/behat.yml
 ###< behat/symfony2-extension ###
+
+###> MySQL Local DB ###
+.data/
+###< MySQL Local DB ###
+
+###> PUBLIC ASSETS ###
+Application/assets
+Application/public/uploads
+Application/public/assets
+###< PUBLIC ASSETS ###
