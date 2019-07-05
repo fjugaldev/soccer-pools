@@ -1,0 +1,18 @@
+<doctrine-mapping>
+    <entity name="App\Domain\Federation\ValueObject\Federation">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="lifecycleFileUpload" />
+            <lifecycle-callback type="preUpdate" method="lifecycleFileUpload" />
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="name" type="string" length="150" />
+        <field name="logo" type="string" length="255" />
+        <one-to-many field="tournaments" target-entity="App\Domain\Tournament\ValueObject\Tournament" mapped-by="federation" />
+        <field name="createdAt" type="datetime"/>
+        <field name="updatedAt" type="datetime" />
+    </entity>
+</doctrine-mapping>

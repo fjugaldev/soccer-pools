@@ -15,7 +15,7 @@ server {
             fastcgi_pass app:9000;
             fastcgi_split_path_info ^(.+\.php)(/.*)$;
             include fastcgi_params;
-
+            fastcgi_read_timeout 90;
             # optionally set the value of the environment variables used in the application
             # fastcgi_param APP_ENV prod;
             # fastcgi_param APP_SECRET <app-secret-id>;
