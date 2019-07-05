@@ -1,0 +1,29 @@
+<doctrine-mapping>
+    <entity name="App\Domain\Group\ValueObject\Group" table="tournament_group">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+        <field name="name" type="string" length="25" />
+        <field name="groupLetter" type="string" length="2" />
+        <many-to-one field="tournament" target-entity="App\Domain\Tournament\ValueObject\Tournament" inversed-by="groups">
+            <join-column name="tournament_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-many field="teams" target-entity="App\Domain\Team\ValueObject\Team">
+            <join-table name="group_teams">
+                <join-columns>
+                    <join-column name="group_id" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="team_id" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        <one-to-many field="matches" target-entity="App\Domain\Match\ValueObject\Match" mapped-by="group" />
+        <field name="createdAt" type="datetime" />
+        <field name="updatedAt" type="datetime" />
+    </entity>
+</doctrine-mapping>
