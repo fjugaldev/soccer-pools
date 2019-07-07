@@ -26,26 +26,30 @@ class TeamCRUDController extends AbstractFOSRestController
      * @return JsonResponse
      */
     public function read(int $id): JsonResponse
-    {}
+    {
+    }
 
     /**
      * @Rest\Post(name="create")
      * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
-    {}
+    {
+    }
 
     /**
      * @Rest\Put(path="/{id}", name="update")
      * @return JsonResponse
      */
     public function update(Request $request, int $id): JsonResponse
-    {}
+    {
+    }
 
     /**
      * @Rest\Delete(path="/{id}", name="delete")
      * @return JsonResponse
      */
     public function delete(int $id): JsonResponse
-    {}
+    {
+    }
 }
