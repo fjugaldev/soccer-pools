@@ -1,0 +1,12 @@
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (1, 'Argentina', 'ARG', 'AR', 'argentina.png', '2019-07-05 18:30:55', '2019-07-05 18:30:55');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (2, 'Bolivia', 'BOL', 'BO', 'bolivia.png', '2019-07-05 18:42:33', '2019-07-05 18:42:33');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (3, 'Brasil', 'BRA', 'BR', 'brazil.png', '2019-07-05 18:43:52', '2019-07-05 18:43:52');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (4, 'Chile', 'CHI', 'CL', 'chile.png', '2019-07-05 18:45:40', '2019-07-05 18:45:40');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (5, 'Colombia', 'COL', 'CO', 'colombia.png', '2019-07-05 18:46:28', '2019-07-05 18:46:28');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (6, 'Ecuador', 'ECU', 'EC', 'ecuador.png', '2019-07-05 18:47:09', '2019-07-05 18:47:09');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (7, 'Japón', 'JPN', 'JP', 'japan.png', '2019-07-05 18:48:37', '2019-07-05 18:48:37');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (8, 'Paraguay', 'PAR', 'PY', 'paraguay.png', '2019-07-05 18:50:17', '2019-07-05 18:50:17');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (9, 'Perú', 'PER', 'PE', 'peru.png', '2019-07-05 18:50:55', '2019-07-05 18:50:55');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (10, 'Qatar', 'QAT', 'QA', 'qatar.png', '2019-07-05 18:51:38', '2019-07-05 18:51:38');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (11, 'Uruguay', 'URU', 'UY', 'uruguay.png', '2019-07-05 18:52:28', '2019-07-05 18:52:28');
+INSERT INTO soccer_pools_db.team (id, name, fifa_code, iso2, flag, created_at, updated_at) VALUES (12, 'Venezuela', 'VEN', 'VE', 'venezuela.png', '2019-07-05 18:52:52', '2019-07-05 18:52:52');
