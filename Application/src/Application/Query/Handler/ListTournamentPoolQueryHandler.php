@@ -4,7 +4,7 @@ namespace App\Application\Query\Handler;
 
 use App\Application\Query\ListTournamentPoolQuery;
 
-class ListTournamentPoolQueryHandler
+class ListTournamentPoolQueryHandler extends AbstractQueryHandler
 {
     /**
      * @param ListTournamentPoolQuery $listTournamentPoolQuery

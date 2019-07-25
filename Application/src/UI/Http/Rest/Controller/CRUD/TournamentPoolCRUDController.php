@@ -11,7 +11,6 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * @Rest\Route(path="/v1/tournaments/{tournamentId}/pools", name="api_pools_")
