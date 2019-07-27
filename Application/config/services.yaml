@@ -1,5 +1,6 @@
 imports:
     - { resource: services/admin.yaml }
+    - { resource: handlers/cq_handlers.yaml }
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
@@ -16,29 +17,21 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
+    InnovatikLabs\:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
-    App\Application\Command\Handler\:
-        resource: '../src/Application/Command/Handler'
-        tags: ['messenger.message_handler']
-
-    App\Application\Query\Handler\:
-        tags: ['messenger.message_handler']
-        resource: '../src/Application/Query/Handler'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
 
-    App\UI\Cli\Command\:
+    InnovatikLabs\UI\Cli\Command\:
         resource: '../src/UI/Cli/Command'
 
-    App\UI\Http\Rest\Controller\:
+    InnovatikLabs\UI\Http\Rest\Controller\:
         resource: '../src/UI/Http/Rest/Controller/*'
         tags: [ 'controller.service_arguments' ]
 
-    App\UI\Http\Web\Controller\:
+    InnovatikLabs\UI\Http\Web\Controller\:
         resource: '../src/UI/Http/Web/Controller/*'
         tags: [ 'controller.service_arguments' ]
 

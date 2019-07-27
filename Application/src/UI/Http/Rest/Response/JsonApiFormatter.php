@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Http\Rest\Response;
+namespace InnovatikLabs\UI\Http\Rest\Response;
 
-use App\Application\Query\Collection;
-use App\Application\Query\Item;
+use InnovatikLabs\Application\Query\Collection;
+use InnovatikLabs\Application\Query\Item;
 
 final class JsonApiFormatter
 {

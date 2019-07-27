@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Http\BackOffice\Admin;
+namespace InnovatikLabs\UI\Http\BackOffice\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;

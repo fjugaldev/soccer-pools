@@ -22,4 +22,4 @@ framework:
     serializer:
         enabled: true
         mapping:
-            paths: ['%kernel.project_dir%/config/serializer/']
+            paths: ['%kernel.project_dir%/src/Shared/Infrastructure/Serializer/']

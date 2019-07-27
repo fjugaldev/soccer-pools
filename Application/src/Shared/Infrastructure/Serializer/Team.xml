@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="InnovatikLabs\Game\Team\Domain\Model\Team">
+        <attribute name="id" serialized-name="id" >
+            <group>readable</group>
+        </attribute>
+        <attribute name="name" serialized-name="name">
+            <group>readable</group>
+        </attribute>
+        <attribute name="flag" serialized-name="flag">
+            <group>readable</group>
+        </attribute>
+        <attribute name="fifaCode" serialized-name="fifaCode">
+            <group>readable</group>
+        </attribute>
+        <attribute name="iso2" serialized-name="iso2">
+            <group>readable</group>
+        </attribute>
+    </class>
+</serializer>

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\UI\Http\Rest\Controller\CRUD;
+namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
-use App\Application\Query\ListTournamentPoolQuery;
-use App\Domain\TournamentPool\ValueObject\TournamentPool;
-use App\UI\Http\Rest\Controller\BaseController;
+use InnovatikLabs\Application\Query\ListTournamentPoolQuery;
+use InnovatikLabs\Domain\TournamentPool\ValueObject\TournamentPool;
+use InnovatikLabs\UI\Http\Rest\Controller\BaseController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

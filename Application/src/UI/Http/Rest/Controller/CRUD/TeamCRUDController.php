@@ -1,8 +1,8 @@
 <?php
 
-namespace App\UI\Http\Rest\Controller\CRUD;
+namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
-use App\Domain\Team\ValueObject\Team;
+use InnovatikLabs\Domain\Team\ValueObject\Team;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;

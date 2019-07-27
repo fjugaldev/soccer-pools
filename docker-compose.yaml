@@ -14,6 +14,8 @@ services:
             - ./Application:/var/www/html:rw
         env_file:
             - .env
+        links:
+            - mysql
         environment:
             XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
             PHP_IDE_CONFIG: serverName=${NGINX_HOST}

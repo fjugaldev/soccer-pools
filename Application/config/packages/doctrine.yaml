@@ -21,9 +21,9 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            Domain:
+            DomainModel:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/Infrastructure/Shared/ORM/Mapping/Domain'
-                prefix: 'App\Domain'
-                alias: Domain
+                dir: '%kernel.project_dir%/src/Shared/Infrastructure/ORM/Mapping/Domain/Model'
+                prefix: 'InnovatikLabs'
+                alias: DomainModel

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Http\Rest\EventSubscriber;
+namespace InnovatikLabs\UI\Http\Rest\EventSubscriber;
 
-use App\Domain\Shared\Query\Exception\NotFoundException;
-use App\Domain\User\Exception\ForbiddenException;
-use App\Domain\User\Exception\InvalidCredentialsException;
+use InnovatikLabs\Domain\Shared\Query\Exception\NotFoundException;
+use InnovatikLabs\Domain\User\Exception\ForbiddenException;
+use InnovatikLabs\Domain\User\Exception\InvalidCredentialsException;
 use Broadway\Repository\AggregateNotFoundException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

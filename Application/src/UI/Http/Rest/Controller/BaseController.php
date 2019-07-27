@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Http\Rest\Controller;
+namespace InnovatikLabs\UI\Http\Rest\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Messenger\HandleTrait;

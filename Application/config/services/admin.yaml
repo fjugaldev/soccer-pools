@@ -1,37 +1,37 @@
 services:
     admin.team:
-        class: App\UI\Http\BackOffice\Admin\TeamAdmin
-        arguments: [~, App\Domain\Team\ValueObject\Team, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\TeamAdmin
+        arguments: [~, InnovatikLabs\Game\Team\Domain\Model\Team, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: General, label: Teams }
 
     admin.tournament:
-        class: App\UI\Http\BackOffice\Admin\TournamentAdmin
-        arguments: [~, App\Domain\Tournament\ValueObject\Tournament, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\TournamentAdmin
+        arguments: [~, InnovatikLabs\Game\Tournament\Domain\Model\Tournament, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournaments }
 
     admin.group:
-        class: App\UI\Http\BackOffice\Admin\GroupAdmin
-        arguments: [~, App\Domain\Group\ValueObject\Group, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\GroupAdmin
+        arguments: [~, InnovatikLabs\Game\Group\Domain\Model\Group, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: Tournament Groups }
 
     admin.tournament_phase:
-        class: App\UI\Http\BackOffice\Admin\TournamentPhaseAdmin
-        arguments: [~, App\Domain\TournamentPhase\ValueObject\TournamentPhase, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\TournamentPhaseAdmin
+        arguments: [~, InnovatikLabs\Game\TournamentPhase\Domain\Model\TournamentPhase, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Phases' }
 
     admin.tournament_pool:
-        class: App\UI\Http\BackOffice\Admin\TournamentPoolAdmin
-        arguments: [~, App\Domain\TournamentPool\ValueObject\TournamentPool, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\TournamentPoolAdmin
+        arguments: [~, InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Pools' }
 
     admin.user:
-        class: App\UI\Http\BackOffice\Admin\UserAdmin
-        arguments: [~, App\Domain\User\ValueObject\User, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\UserAdmin
+        arguments: [~, InnovatikLabs\Account\User\Domain\Model\User, ~]
         calls:
             -   method: setUserManager
                 arguments:
@@ -40,19 +40,19 @@ services:
             - { name: sonata.admin, manager_type: orm, group: General, label: 'Users' }
 
     admin.federation:
-        class: App\UI\Http\BackOffice\Admin\FederationAdmin
-        arguments: [~, App\Domain\Federation\ValueObject\Federation, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\FederationAdmin
+        arguments: [~, InnovatikLabs\Game\Federation\Domain\Model\Federation, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: General, label: 'Federations' }
 
     admin.match:
-        class: App\UI\Http\BackOffice\Admin\MatchAdmin
-        arguments: [~, App\Domain\Match\ValueObject\Match, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\MatchAdmin
+        arguments: [~, InnovatikLabs\Game\Match\Domain\Model\Match, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Tournament Matches' }
 
     admin.pool_ticket:
-        class: App\UI\Http\BackOffice\Admin\PoolTicketAdmin
-        arguments: [~, App\Domain\PoolTicket\ValueObject\PoolTicket, ~]
+        class: InnovatikLabs\UI\Http\BackOffice\Admin\PoolTicketAdmin
+        arguments: [~, InnovatikLabs\Bet\PoolTicket\Domain\Model\PoolTicket, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pools, label: 'Pool Tickets' }
