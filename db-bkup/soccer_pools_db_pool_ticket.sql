@@ -1,0 +1,1 @@
+INSERT INTO soccer_pools_db.pool_ticket (id, pool_id, match_id, player_id, visitor_score, home_score, created_at, updated_at) VALUES (1, 1, 1, 1, 0, 3, '2019-07-05 21:59:08', '2019-07-05 21:59:08');

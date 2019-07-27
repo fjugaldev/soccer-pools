@@ -1,0 +1,1 @@
+INSERT INTO soccer_pools_db.tournament (id, federation_id, name, description, from_date, to_date, logo, created_at, updated_at) VALUES (1, 1, 'Copa America Brasil 2019', 'Torneo de la Conmebol - Copa America Brasil 2019', '2019-06-15 14:30:00', '2019-07-07 22:00:00', 'copaamerica19_rgb_on_dark_blue_0.jpg', '2019-07-05 19:00:35', '2019-07-05 19:00:35');

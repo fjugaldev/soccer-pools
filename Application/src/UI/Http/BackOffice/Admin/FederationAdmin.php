@@ -1,8 +1,8 @@
 <?php
 
-namespace App\UI\Http\BackOffice\Admin;
+namespace InnovatikLabs\UI\Http\BackOffice\Admin;
 
-use App\Domain\Federation\ValueObject\Federation;
+use InnovatikLabs\Game\Federation\Domain\Model\Federation;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;

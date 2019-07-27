@@ -18,3 +18,8 @@ framework:
 
     templating:
         engines: ['twig', 'php']
+
+    serializer:
+        enabled: true
+        mapping:
+            paths: ['%kernel.project_dir%/src/Shared/Infrastructure/Serializer/']
