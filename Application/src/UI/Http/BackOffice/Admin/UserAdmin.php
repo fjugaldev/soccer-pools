@@ -1,7 +1,8 @@
 <?php
 
-namespace App\UI\Http\BackOffice\Admin;
+namespace InnovatikLabs\UI\Http\BackOffice\Admin;
 
+use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -9,12 +10,14 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UserAdmin  extends AbstractAdmin
 {
     protected $baseRouteName = 'admin_user';
     protected $baseRoutePattern = 'user';
+    protected $userManager;
 
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -28,13 +31,29 @@ class UserAdmin  extends AbstractAdmin
             ->add('lastName', TextType::class)
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
-            ->add('password', TextType::class)
+            ->add('plainPassword', PasswordType::class)
             ->add('enabled', CheckboxType::class)
             ->add('roles', ChoiceType::class, [
                     'choices'  => $rolesChoices,
                     'multiple' => true,
             ])
         ;
+    }
+
+    public function preUpdate($user)
+    {
+        $this->getUserManager()->updateCanonicalFields($user);
+        $this->getUserManager()->updatePassword($user);
+    }
+
+    public function setUserManager(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
+    public function getUserManager(): UserManagerInterface
+    {
+        return $this->userManager;
     }
 
     /**

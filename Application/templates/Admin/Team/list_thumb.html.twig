@@ -4,9 +4,9 @@
     {% if object.flag is defined %}
        {% set image = 'flags/' ~ object.flag %}
     {% elseif object.logo is defined %}
-        {% if object is instanceOf('App\\Domain\\Tournament\\ValueObject\\Tournament') %}
+        {% if object is instanceOf('InnovatikLabs\\Game\\Tournament\\Domain\\Model\\Tournament') %}
             {% set image = 'logos/tournaments/' ~ object.logo %}
-        {% elseif object is instanceOf('App\\Domain\\Federation\\ValueObject\\Federation') %}
+        {% elseif object is instanceOf('InnovatikLabs\\Game\\Federation\\Domain\\Model\\Federation') %}
             {% set image = 'logos/federations/' ~ object.logo %}
         {% endif %}
     {% endif %}

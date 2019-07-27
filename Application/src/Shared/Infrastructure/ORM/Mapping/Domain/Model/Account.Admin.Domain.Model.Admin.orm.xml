@@ -1,0 +1,8 @@
+<doctrine-mapping>
+    <entity name="InnovatikLabs\Account\Admin\Domain\Model\Admin">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="updateTimestamps" />
+            <lifecycle-callback type="preUpdate" method="updateTimestamps" />
+        </lifecycle-callbacks>
+    </entity>
+</doctrine-mapping>

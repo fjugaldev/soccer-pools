@@ -1,0 +1,12 @@
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (1, 2);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (1, 3);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (1, 9);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (1, 12);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (2, 1);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (2, 5);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (2, 8);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (2, 10);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (3, 4);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (3, 6);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (3, 7);
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (3, 11);

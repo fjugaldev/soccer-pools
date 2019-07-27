@@ -14,6 +14,8 @@ services:
             - ./Application:/var/www/html:rw
         env_file:
             - .env
+        links:
+            - mysql
         environment:
             XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
             PHP_IDE_CONFIG: serverName=${NGINX_HOST}
@@ -28,7 +30,7 @@ services:
         env_file:
             - .env
         ports:
-            - "3306:3306"
+            - "3307:3306"
 
     nginx:
         container_name: sp_nginx
@@ -38,7 +40,7 @@ services:
                 - nginx_host=${NGINX_HOST}
         ports:
             - "8008:80"
-            - "443:443"
+            - "4443:443"
         depends_on:
             - app
         volumes:
@@ -52,10 +54,26 @@ services:
             > /etc/nginx/conf.d/default.conf
             && exec nginx -g 'daemon off;'"
 
-#        redis:
-#            container_name: sp_redis
-#            build:
-#                context: ./Infrastructure/redis
+    redis:
+        container_name: sp_redis
+        build:
+            context: ./Infrastructure/redis
+
+    rabbitmq:
+        container_name: sp_rabbitmq
+        image: "rabbitmq:3-management"
+        hostname: "rabbitmq"
+        environment:
+            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+            RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+        env_file:
+            - .env
+        ports:
+            - "5672:5672"
+        stdin_open: true
+        tty: true
 
 #        elk:
 #            build:

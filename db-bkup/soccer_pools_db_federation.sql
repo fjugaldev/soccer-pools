@@ -1,0 +1,1 @@
+INSERT INTO soccer_pools_db.federation (id, name, logo, created_at, updated_at) VALUES (1, 'Conmebol', 'conmebol.png', '2019-07-05 18:55:52', '2019-07-05 18:55:52');
