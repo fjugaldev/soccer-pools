@@ -2,8 +2,8 @@
 
 namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
-use InnovatikLabs\Application\Query\ListTournamentPoolQuery;
-use InnovatikLabs\Domain\TournamentPool\ValueObject\TournamentPool;
+use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolQuery;
+use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use InnovatikLabs\UI\Http\Rest\Controller\BaseController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
