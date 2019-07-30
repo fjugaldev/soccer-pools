@@ -1,6 +1,8 @@
 <?php
 
-namespace InnovatikLabs\Bet\TournamentPool\Domain\Persistence\Repository\Query;
+namespace InnovatikLabs\Bet\TournamentPool\Domain\Persistence\ORM;
+
+use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
 
 interface TournamentPoolQueryRepositoryInterface
 {
@@ -8,7 +10,7 @@ interface TournamentPoolQueryRepositoryInterface
      * @param int $page
      * @param int $perPage
      *
-//     * @return ProductView[]
+     * @return TournamentPoolView[]
      */
     public function fetchAll(int $page, int $perPage): array;
 }

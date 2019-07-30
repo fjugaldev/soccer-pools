@@ -2,7 +2,9 @@
 
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query;
 
-class ListTournamentPoolQuery
+use InnovatikLabs\Shared\Domain\Query\QueryInterface;
+
+class ListTournamentPoolQuery implements QueryInterface
 {
     /**
      * @var int

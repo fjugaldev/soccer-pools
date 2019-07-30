@@ -3,13 +3,14 @@
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query\Handler;
 
 use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolQuery;
+use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
 use InnovatikLabs\Shared\Domain\Query\Handler\QueryHandlerInterface;
 
 class ListTournamentPoolQueryHandler extends AbstractQueryHandler implements QueryHandlerInterface
 {
     /**
      * @param ListTournamentPoolQuery $listTournamentPoolQuery
-     * @return array
+     * @return TournamentPoolView[]
      */
     public function __invoke(ListTournamentPoolQuery $listTournamentPoolQuery): array
     {

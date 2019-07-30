@@ -2,19 +2,17 @@
 
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query\Handler;
 
-//use InnovatikLabs\Domain\TournamentPool\Repository\Query\TournamentPoolQueryRepository;
+use InnovatikLabs\Bet\TournamentPool\Domain\Persistence\ORM\TournamentPoolQueryRepositoryInterface;
 
 abstract class AbstractQueryHandler
 {
     /**
-//     * @var TournamentPoolQueryRepository
+     * @var TournamentPoolQueryRepositoryInterface
      */
     protected $repository;
 
-//    public function __construct(TournamentPoolQueryRepository $repository)
-    public function __construct()
+    public function __construct(TournamentPoolQueryRepositoryInterface $repository)
     {
-
+        $this->repository = $repository;
     }
-
 }
