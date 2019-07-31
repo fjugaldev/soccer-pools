@@ -60,6 +60,9 @@ Usar las funciones nativas de BIN_TO_UUID() y UUID_TO_BIN()
 Generador de UUID() Online
 https://www.uuidgenerator.net/version4
 
+Ramsey UUID Doctrine
+https://github.com/ramsey/uuid-doctrine
+
 # Regex para reemplazar en PHPSTORM:
 
 Find: 
