@@ -28,10 +28,10 @@ RETURN LOWER(CONCAT(
 
 ## Si queremos usar Ordered UUID Binary
 ```sql
-CREATE 
-  FUNCTION `uuid_to_ouuid`(uuid BINARY(36))
-  RETURNS binary(16) DETERMINISTIC
-  RETURN UNHEX(CONCAT(
+CREATE FUNCTION `uuid_to_ouuid`(uuid BINARY(36))
+  RETURNS binary(16) 
+  DETERMINISTIC
+RETURN UNHEX(CONCAT(
   SUBSTR(uuid, 15, 4),
   SUBSTR(uuid, 10, 4),
   SUBSTR(uuid, 1, 8),
@@ -41,10 +41,10 @@ CREATE
 ```
 
 ```sql
-CREATE 
-  FUNCTION ouuid_to_uuid(uuid BINARY(16))
+CREATE FUNCTION ouuid_to_uuid(uuid BINARY(16))
   RETURNS VARCHAR(36)
-  RETURN LOWER(CONCAT(
+  DETERMINISTIC
+RETURN LOWER(CONCAT(
   SUBSTR(HEX(uuid), 9, 8), '-',
   SUBSTR(HEX(uuid), 5, 4), '-',
   SUBSTR(HEX(uuid), 1, 4), '-',
