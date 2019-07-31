@@ -6,11 +6,12 @@ use InnovatikLabs\Game\Match\Domain\Model\Match;
 use InnovatikLabs\Shared\Domain\Model\BaseEntity;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use InnovatikLabs\Account\User\Domain\Model\User;
+use Ramsey\Uuid\UuidInterface;
 
 class PoolTicket extends BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

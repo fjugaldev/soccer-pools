@@ -1,7 +1,8 @@
 <doctrine-mapping>
     <entity name="InnovatikLabs\Game\Match\Domain\Model\Match" table="tournament_match">
-        <id name="id" type="integer">
-            <generator strategy="AUTO" />
+        <id name="id" column="id" type="uuid_binary">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
         <lifecycle-callbacks>
             <lifecycle-callback type="prePersist" method="updateTimestamps" />

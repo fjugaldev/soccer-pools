@@ -2,11 +2,12 @@
 
 namespace InnovatikLabs\Shared\Domain\Model;
 
+use Ramsey\Uuid\UuidInterface;
 
 abstract class BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 
@@ -21,11 +22,11 @@ abstract class BaseEntity
     protected $updatedAt;
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): string
     {
-        return $this->id;
+        return $this->id->toString();
     }
 
     /**

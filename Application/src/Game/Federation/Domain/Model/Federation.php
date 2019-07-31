@@ -5,6 +5,7 @@ namespace InnovatikLabs\Game\Federation\Domain\Model;
 use InnovatikLabs\Shared\Domain\Model\BaseEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Federation extends BaseEntity
@@ -12,7 +13,7 @@ class Federation extends BaseEntity
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/federations';
 
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

@@ -7,11 +7,12 @@ use InnovatikLabs\Game\Tournament\Domain\Model\Tournament;
 use InnovatikLabs\Account\User\Domain\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 
 class TournamentPool extends BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

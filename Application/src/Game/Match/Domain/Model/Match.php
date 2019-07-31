@@ -7,11 +7,12 @@ use InnovatikLabs\Shared\Domain\Model\BaseEntity;
 use InnovatikLabs\Game\Team\Domain\Model\Team;
 use InnovatikLabs\Game\Tournament\Domain\Model\Tournament;
 use InnovatikLabs\Game\TournamentPhase\Domain\Model\TournamentPhase;
+use Ramsey\Uuid\UuidInterface;
 
 class Match extends BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

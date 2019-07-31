@@ -1,0 +1,12 @@
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('e6c7ac92-050d-4297-b41b-eaa57d327d99'), UUID_TO_BIN('687ba6c8-e53c-44e4-bf41-373737dc51ca'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('e6c7ac92-050d-4297-b41b-eaa57d327d99'), UUID_TO_BIN('1876cf41-7484-4b9c-953a-c1b6e770fb3b'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('e6c7ac92-050d-4297-b41b-eaa57d327d99'), UUID_TO_BIN('938d46cf-7cea-4c3c-a0a1-762bdc4239f9'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('e6c7ac92-050d-4297-b41b-eaa57d327d99'), UUID_TO_BIN('937980b2-a254-478c-8bcc-60439ef3ad13'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('ef0f8bd9-cbb2-452e-bd8d-cf68cc1b0b3e'), UUID_TO_BIN('e6650104-1453-4f4b-bc1b-d14f61f1ac11'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('ef0f8bd9-cbb2-452e-bd8d-cf68cc1b0b3e'), UUID_TO_BIN('701ea888-31cc-4f1f-b9cf-8a1a3a796e4f'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('ef0f8bd9-cbb2-452e-bd8d-cf68cc1b0b3e'), UUID_TO_BIN('49fe6bfa-a3ac-4a40-96ae-271d0ded85a0'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('ef0f8bd9-cbb2-452e-bd8d-cf68cc1b0b3e'), UUID_TO_BIN('cebe696a-e805-4379-a936-15b17e798896'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('b04ba17e-4a35-482d-8a76-f1cbaa1c8caf'), UUID_TO_BIN('0282546d-2ca2-49ea-a81c-318f5b11083b'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('b04ba17e-4a35-482d-8a76-f1cbaa1c8caf'), UUID_TO_BIN('02e374cb-58cf-4bf2-8410-75d84865ed6f'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('b04ba17e-4a35-482d-8a76-f1cbaa1c8caf'), UUID_TO_BIN('d111a55e-3363-45ca-8e5a-537194b4374a'));
+INSERT INTO soccer_pools_db.group_teams (group_id, team_id) VALUES (UUID_TO_BIN('b04ba17e-4a35-482d-8a76-f1cbaa1c8caf'), UUID_TO_BIN('edd01c56-1449-4535-88a6-f89cf0bb3388'));

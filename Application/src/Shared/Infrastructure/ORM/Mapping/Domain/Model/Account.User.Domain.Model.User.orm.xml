@@ -10,8 +10,12 @@
             <discriminator-mapping value="player" class="InnovatikLabs\Account\Player\Domain\Model\Player" />
             <discriminator-mapping value="admin" class="InnovatikLabs\Account\Admin\Domain\Model\Admin" />
         </discriminator-map>
-        <id name="id" type="integer">
+        <!--<id name="id" type="integer">
             <generator strategy="AUTO" />
+        </id>-->
+        <id name="id" column="id" type="uuid_binary">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
         <field name="firstName" type="string" length="100" />
         <field name="lastName" type="string" length="100" />
