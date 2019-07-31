@@ -11,6 +11,7 @@ use InnovatikLabs\Game\TournamentPhase\Domain\Model\TournamentPhase;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Tournament extends BaseEntity
@@ -18,7 +19,7 @@ class Tournament extends BaseEntity
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/logos/tournaments';
 
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

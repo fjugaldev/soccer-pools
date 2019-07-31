@@ -1,0 +1,1 @@
+INSERT INTO soccer_pools_db.federation (id, name, logo, created_at, updated_at) VALUES (UUID_TO_BIN('006f0507-37ce-4f3f-83fa-38d751f1bd6e'), 'Conmebol', 'conmebol.png', '2019-07-05 18:55:52', '2019-07-05 18:55:52');

@@ -5,11 +5,12 @@ namespace InnovatikLabs\Account\User\Domain\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as FOSBaseUser;
+use Ramsey\Uuid\UuidInterface;
 
 class User extends FOSBaseUser
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

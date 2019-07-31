@@ -3,6 +3,7 @@
 namespace InnovatikLabs\Game\Team\Domain\Model;
 
 use InnovatikLabs\Shared\Domain\Model\BaseEntity;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Team extends BaseEntity
@@ -10,7 +11,7 @@ class Team extends BaseEntity
     const SERVER_PATH_TO_IMAGE_FOLDER = './uploads/flags';
 
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

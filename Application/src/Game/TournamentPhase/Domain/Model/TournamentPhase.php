@@ -5,11 +5,12 @@ namespace InnovatikLabs\Game\TournamentPhase\Domain\Model;
 use InnovatikLabs\Shared\Domain\Model\BaseEntity;
 use InnovatikLabs\Game\Tournament\Domain\Model\Tournament;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 
 class TournamentPhase extends BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 

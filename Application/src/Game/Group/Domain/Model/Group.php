@@ -8,11 +8,12 @@ use InnovatikLabs\Game\Team\Domain\Model\Team;
 use InnovatikLabs\Game\Tournament\Domain\Model\Tournament;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ramsey\Uuid\UuidInterface;
 
 class Group extends BaseEntity
 {
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $id;
 
