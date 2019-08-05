@@ -22,11 +22,11 @@ abstract class BaseEntity
     protected $updatedAt;
 
     /**
-     * @return string
+     * @return UuidInterface
      */
-    public function getId(): string
+    public function getId(): UuidInterface
     {
-        return $this->id->toString();
+        return $this->id;
     }
 
     /**

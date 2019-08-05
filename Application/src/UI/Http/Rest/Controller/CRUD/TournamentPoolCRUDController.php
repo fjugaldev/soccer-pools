@@ -69,7 +69,6 @@ class TournamentPoolCRUDController extends AbstractFOSRestController
     public function list(int $tournamentId, MessageBusInterface $messageBus): JsonResponse
     {
         $useCase = new ListTournamentPoolUseCase($messageBus);
-
         $data = $useCase->execute(new ListTournamentPoolQuery($tournamentId, $this->getUser()->getId()));
 
         return new JsonResponse($data);

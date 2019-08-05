@@ -3,6 +3,7 @@
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query;
 
 use InnovatikLabs\Shared\Domain\Query\QueryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class ListTournamentPoolQuery implements QueryInterface
 {
@@ -12,15 +13,15 @@ class ListTournamentPoolQuery implements QueryInterface
     protected $tournamentId;
 
     /**
-     * @var int
+     * @var UuidInterface
      */
     protected $userId;
 
     /**
      * @param int $tournamentId
-     * @param int $userId
+     * @param UuidInterface $userId
      */
-    public function __construct(int $tournamentId, int $userId)
+    public function __construct(int $tournamentId, UuidInterface $userId)
     {
         $this->tournamentId = $tournamentId;
         $this->userId = $userId;
@@ -35,9 +36,9 @@ class ListTournamentPoolQuery implements QueryInterface
     }
 
     /**
-     * @return int
+     * @return UuidInterface
      */
-    public function getUserId(): int
+    public function getUserId(): UuidInterface
     {
         return $this->userId;
     }

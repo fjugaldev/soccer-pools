@@ -3,14 +3,14 @@
 namespace InnovatikLabs\Bet\TournamentPool\Domain\Persistence\ORM;
 
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
+use Ramsey\Uuid\UuidInterface;
 
 interface TournamentPoolQueryRepositoryInterface
 {
     /**
-     * @param int $page
-     * @param int $perPage
-     *
+     * @param string $tournamentId
+     * @param UuidInterface $ownerId
      * @return TournamentPoolView[]
      */
-    public function fetchAll(int $page, int $perPage): array;
+    public function allOfUserId(string $tournamentId, UuidInterface $ownerId): array;
 }
