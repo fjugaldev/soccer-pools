@@ -10,7 +10,9 @@ interface TournamentPoolQueryRepositoryInterface
     /**
      * @param string $tournamentId
      * @param UuidInterface $ownerId
+     * @param int $page
+     * @param int $limit
      * @return TournamentPoolView[]
      */
-    public function allOfUserId(string $tournamentId, UuidInterface $ownerId): array;
+    public function allOfUserId(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): array;
 }

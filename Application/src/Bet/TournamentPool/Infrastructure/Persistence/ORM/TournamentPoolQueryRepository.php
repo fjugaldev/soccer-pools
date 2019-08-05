@@ -27,16 +27,18 @@ class TournamentPoolQueryRepository extends MySQLBaseRepository implements Tourn
     /**
      * @param string $tournamentId
      * @param UuidInterface $ownerId
+     * @param int $page
+     * @param int $limit
      * @return TournamentPoolView[]
      */
-    public function allOfUserId(string $tournamentId, UuidInterface $ownerId): array
+    public function allOfUserId(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): array
     {
         $qb = $this->createQueryBuilder('tp')
-            ->where('tp.id = :ownerId')
+            ->where('tp.owner = :ownerId')
             ->setParameter('ownerId', $ownerId->getBytes());
-
         $tournamentPools = [];
-        foreach ($this->allOrEmpty($qb) as $tournament) {
+        $paginatedResults = $this->allOrEmpty($qb, $page, $limit);
+        foreach ($paginatedResults['items'] as $tournament) {
             $tournamentPools[] = $this->tournamentPoolAdapter->map($tournament);
         }
 

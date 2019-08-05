@@ -2,10 +2,11 @@
 
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query;
 
+use InnovatikLabs\Shared\Domain\Query\AbstractPageableQuery;
 use InnovatikLabs\Shared\Domain\Query\QueryInterface;
 use Ramsey\Uuid\UuidInterface;
 
-class ListTournamentPoolQuery implements QueryInterface
+final class ListTournamentPoolQuery extends AbstractPageableQuery implements QueryInterface
 {
     /**
      * @var int
@@ -20,11 +21,27 @@ class ListTournamentPoolQuery implements QueryInterface
     /**
      * @param int $tournamentId
      * @param UuidInterface $userId
+     * @param $page
+     * @param $limit
      */
-    public function __construct(int $tournamentId, UuidInterface $userId)
+    private function __construct(int $tournamentId, UuidInterface $userId, $page, $limit)
     {
+        $this->page = $page;
+        $this->limit = $limit;
         $this->tournamentId = $tournamentId;
         $this->userId = $userId;
+    }
+
+    /**
+     * @param int $tournamentId
+     * @param UuidInterface $userId
+     * @param $page
+     * @param $limit
+     * @return ListTournamentPoolQuery
+     */
+    public static function create(int $tournamentId, UuidInterface $userId, $page, $limit): ListTournamentPoolQuery
+    {
+        return new self($tournamentId, $userId, $page, $limit);
     }
 
     /**

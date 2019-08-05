@@ -7,7 +7,7 @@ use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
 use InnovatikLabs\Bet\TournamentPool\Domain\Persistence\ORM\TournamentPoolQueryRepositoryInterface;
 use InnovatikLabs\Shared\Domain\Query\Handler\QueryHandlerInterface;
 
-class ListTournamentPoolQueryHandler implements QueryHandlerInterface
+final class ListTournamentPoolQueryHandler implements QueryHandlerInterface
 {
     /**
      * @var TournamentPoolQueryRepositoryInterface
@@ -25,6 +25,11 @@ class ListTournamentPoolQueryHandler implements QueryHandlerInterface
      */
     public function __invoke(ListTournamentPoolQuery $query): array
     {
-        return $this->repository->allOfUserId($query->getTournamentId(), $query->getUserId());
+        return $this->repository->allOfUserId(
+            $query->getTournamentId(),
+            $query->getUserId(),
+            $query->getPage(),
+            $query->getLimit()
+        );
     }
 }

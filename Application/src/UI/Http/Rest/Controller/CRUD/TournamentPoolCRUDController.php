@@ -7,6 +7,7 @@ use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolQuery;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolUseCase;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use InnovatikLabs\UI\Http\Rest\Controller\AbstractBaseController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
@@ -17,7 +18,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 /**
  * @Rest\Route(path="/v1/tournaments/{tournamentId}/pools", name="api_pools_")
  */
-class TournamentPoolCRUDController extends AbstractFOSRestController
+class TournamentPoolCRUDController extends AbstractBaseController
 {
     /**
      * @Rest\Get(name="list")
@@ -61,15 +62,23 @@ class TournamentPoolCRUDController extends AbstractFOSRestController
      * @SWG\Tag(name="TournamentPools")
      * @Security(name="Bearer")
      *
-     * @param int                 $tournamentId
+     * @param Request $request
+     * @param int $tournamentId
      * @param MessageBusInterface $messageBus
      *
      * @return JsonResponse
      */
-    public function list(int $tournamentId, MessageBusInterface $messageBus): JsonResponse
+    public function list(Request $request, int $tournamentId, MessageBusInterface $messageBus): JsonResponse
     {
         $useCase = new ListTournamentPoolUseCase($messageBus);
-        $data = $useCase->execute(new ListTournamentPoolQuery($tournamentId, $this->getUser()->getId()));
+        $data = $useCase->execute(
+            ListTournamentPoolQuery::create(
+                $tournamentId,
+                $this->getUser()->getId(),
+                $request->query->get('page', 1),
+                self::RESULTS_BY_PAGE
+            )
+        );
 
         return new JsonResponse($data);
     }
