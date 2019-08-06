@@ -19,17 +19,14 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      * @param QueryBuilder $qb
      * @param int $page
      * @param int $limit
-     * @return array|null
+     * @return Paginator|null
      */
-    public function allOrEmpty(QueryBuilder $qb, int $page, int $limit): ?array
+    public function allPaginatedOrNull(QueryBuilder $qb, int $page, int $limit): ?Paginator
     {
-        $paginator = $this->paginate($qb, $page, $limit);
+        $paginatedResults = self::paginate($qb, $page, $limit);
+        if ($paginatedResults->getQuery()->getMaxResults() == 0) return null;
 
-        return [
-            'items' => $paginator->getQuery()->getResult(),
-            'currentPage' => $page,
-            'totalPages' => $this->lastPage($paginator),
-        ];
+        return $paginatedResults;
     }
 
     /**
@@ -38,7 +35,7 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      * @param int $limit
      * @return Paginator
      */
-    public function paginate($query, int $page, int $limit): Paginator
+    public static function paginate($query, int $page, int $limit): Paginator
     {
         $paginator = new Paginator($query);
         $paginator
@@ -51,7 +48,7 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      * @param Paginator $paginator
      * @return int
      */
-    public function lastPage(Paginator $paginator): int
+    public static function lastPage(Paginator $paginator): int
     {
         return ceil($paginator->count() / $paginator->getQuery()->getMaxResults());
     }
@@ -59,7 +56,7 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      * @param Paginator $paginator
      * @return int
      */
-    public function total(Paginator $paginator): int
+    public static function total(Paginator $paginator): int
     {
         return $paginator->count();
     }
@@ -67,7 +64,7 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      * @param Paginator $paginator
      * @return bool
      */
-    public function currentPageHasNoResult(Paginator $paginator): bool
+    public static function currentPageHasNoResult(Paginator $paginator): bool
     {
         return !$paginator->getIterator()->count();
     }

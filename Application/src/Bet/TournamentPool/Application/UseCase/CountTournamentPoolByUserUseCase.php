@@ -7,14 +7,14 @@ use InnovatikLabs\Shared\Domain\Query\QueryInterface;
 use InnovatikLabs\Shared\Domain\Query\UseCase\UseCaseQueryInterface;
 use InnovatikLabs\Shared\Infrastructure\UseCase\BaseUseCase;
 
-class ListTournamentPoolUseCase extends BaseUseCase implements UseCaseQueryInterface
+class CountTournamentPoolByUserUseCase extends BaseUseCase implements UseCaseQueryInterface
 {
     /**
      * @param QueryInterface $queryMessage
      *
-     * @return TournamentPoolView[]
+     * @return int
      */
-    public function execute(QueryInterface $queryMessage): array
+    public function execute(QueryInterface $queryMessage): int
     {
         return $this->handleMessage($queryMessage);
     }

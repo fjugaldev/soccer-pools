@@ -3,7 +3,11 @@
 namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use InnovatikLabs\Bet\TournamentPool\Application\Query\CountTournamentPoolByUserQuery;
+use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentByUserPoolQuery;
 use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolQuery;
+use InnovatikLabs\Bet\TournamentPool\Application\UseCase\CountTournamentPoolByUserUseCase;
+use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolByUserUseCase;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolUseCase;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -70,17 +74,32 @@ class TournamentPoolCRUDController extends AbstractBaseController
      */
     public function list(Request $request, int $tournamentId, MessageBusInterface $messageBus): JsonResponse
     {
-        $useCase = new ListTournamentPoolUseCase($messageBus);
-        $data = $useCase->execute(
-            ListTournamentPoolQuery::create(
+        $page = $request->query->get('page', 1);
+        $limit = $request->query->get('limit', self::DEFAULT_MAX_RESULTS_BY_PAGE);
+
+        $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus);
+        $itemsCount = $countUserTournamentPoolsUseCase->execute(
+            CountTournamentPoolByUserQuery::create($tournamentId, $this->getUser()->getId()));
+
+        $useCase = new ListTournamentPoolByUserUseCase($messageBus);
+        $items = $useCase->execute(
+            ListTournamentByUserPoolQuery::create(
                 $tournamentId,
                 $this->getUser()->getId(),
-                $request->query->get('page', 1),
-                self::RESULTS_BY_PAGE
+                $page,
+                $limit
             )
         );
 
-        return new JsonResponse($data);
+        return new JsonResponse([
+            'data' => [
+                'type' => 'TournamentPool',
+                'items' => $items,
+            ],
+            'currentPage' => $page,
+            'LimitPerPage' => $limit,
+            'totalPages' => self::totalPages($itemsCount, $limit),
+        ]);
     }
 
     /**

@@ -29,19 +29,40 @@ class TournamentPoolQueryRepository extends MySQLBaseRepository implements Tourn
      * @param UuidInterface $ownerId
      * @param int $page
      * @param int $limit
-     * @return TournamentPoolView[]
+     * @return TournamentPoolView[]|null
      */
-    public function allOfUserId(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): array
+    public function allTournamentPoolsOfUserOrNull(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): ?array
     {
         $qb = $this->createQueryBuilder('tp')
             ->where('tp.owner = :ownerId')
             ->setParameter('ownerId', $ownerId->getBytes());
+        $paginatedResults = self::allPaginatedOrNull($qb, $page, $limit);
+
         $tournamentPools = [];
-        $paginatedResults = $this->allOrEmpty($qb, $page, $limit);
-        foreach ($paginatedResults['items'] as $tournament) {
+        foreach ($paginatedResults->getQuery()->getResult() as $tournament) {
             $tournamentPools[] = $this->tournamentPoolAdapter->map($tournament);
         }
 
         return $tournamentPools;
+    }
+
+    /**
+     * @param string $tournamentId
+     * @param UuidInterface $ownerId
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function countAllTournamentPoolsOfUser(string $tournamentId, UuidInterface $ownerId): int
+    {
+        $qb = $this->createQueryBuilder('tp')
+            ->where('tp.owner = :ownerId')
+            ->setParameter('ownerId', $ownerId->getBytes());
+
+        return $qb
+            ->select('count(tp.id)')
+            ->getQuery()
+            ->useQueryCache(true)
+            ->useResultCache(true, 3600)
+            ->getSingleScalarResult();
     }
 }

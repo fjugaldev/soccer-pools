@@ -6,7 +6,7 @@ use InnovatikLabs\Shared\Domain\Query\AbstractPageableQuery;
 use InnovatikLabs\Shared\Domain\Query\QueryInterface;
 use Ramsey\Uuid\UuidInterface;
 
-final class ListTournamentPoolQuery extends AbstractPageableQuery implements QueryInterface
+final class ListTournamentByUserPoolQuery extends AbstractPageableQuery implements QueryInterface
 {
     /**
      * @var int
@@ -22,12 +22,12 @@ final class ListTournamentPoolQuery extends AbstractPageableQuery implements Que
      * @param int $tournamentId
      * @param UuidInterface $userId
      * @param $page
-     * @param $limit
+     * @param $perPageLimit
      */
-    private function __construct(int $tournamentId, UuidInterface $userId, $page, $limit)
+    private function __construct(int $tournamentId, UuidInterface $userId, $page, $perPageLimit)
     {
         $this->page = $page;
-        $this->limit = $limit;
+        $this->perPageLimit = $perPageLimit;
         $this->tournamentId = $tournamentId;
         $this->userId = $userId;
     }
@@ -36,12 +36,12 @@ final class ListTournamentPoolQuery extends AbstractPageableQuery implements Que
      * @param int $tournamentId
      * @param UuidInterface $userId
      * @param $page
-     * @param $limit
-     * @return ListTournamentPoolQuery
+     * @param $perPageLimit
+     * @return ListTournamentByUserPoolQuery
      */
-    public static function create(int $tournamentId, UuidInterface $userId, $page, $limit): ListTournamentPoolQuery
+    public static function create(int $tournamentId, UuidInterface $userId, int $page, int $perPageLimit): ListTournamentByUserPoolQuery
     {
-        return new self($tournamentId, $userId, $page, $limit);
+        return new self($tournamentId, $userId, $page, $perPageLimit);
     }
 
     /**

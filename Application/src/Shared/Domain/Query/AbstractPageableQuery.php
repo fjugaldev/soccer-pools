@@ -12,7 +12,7 @@ abstract class AbstractPageableQuery
     /**
      * @var int
      */
-    protected $limit;
+    protected $perPageLimit;
 
     /**
      * @return int
@@ -25,8 +25,8 @@ abstract class AbstractPageableQuery
     /**
      * @return int
      */
-    public function getLimit(): int
+    public function getPerPageLimit(): int
     {
-        return $this->limit;
+        return $this->perPageLimit;
     }
 }

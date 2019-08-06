@@ -6,5 +6,10 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 abstract class AbstractBaseController extends AbstractFOSRestController
 {
-    const RESULTS_BY_PAGE = 25;
+    const DEFAULT_MAX_RESULTS_BY_PAGE = 25;
+
+    public static function totalPages(int $itemsCount, int $limit): int
+    {
+        return ceil($itemsCount / $limit);
+    }
 }
