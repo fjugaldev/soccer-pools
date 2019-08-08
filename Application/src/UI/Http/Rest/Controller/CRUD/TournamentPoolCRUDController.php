@@ -91,7 +91,14 @@ class TournamentPoolCRUDController extends AbstractBaseController
             )
         );
 
-        return self::generateJsonResponse('TournamentPool', $items, $itemsCount, $request->getUri(), $page, $limit);
+        //return self::generateJsonResponse('TournamentPool', $items, $itemsCount, $request->getUri(), $page, $limit);
+        return JsonResponse::create([
+            'type' => 'TournamentPool',
+            'data' => [
+                'items' => $items,
+                'itemsCount' => $itemsCount
+            ],
+        ]);
     }
 
     /**

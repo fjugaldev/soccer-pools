@@ -1,22 +1,26 @@
 <?php
 
-namespace InnovatikLabs\UI\Http\Rest\Controller;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+namespace InnovatikLabs\Shared\Infrastructure\Helper;
 
-abstract class AbstractBaseController extends AbstractFOSRestController
+use Symfony\Component\HttpFoundation\Request;
+
+abstract class JsonResponseHelper
 {
     const DEFAULT_MAX_RESULTS_BY_PAGE = 25;
 
-    public static function generateJsonResponse(
-        string $type,
-        array $items,
-        int $itemsCount,
-        string $uri,
-        int $page,
-        int $limit
-    ): JsonResponse {
+    /**
+     * @param string $type
+     * @param Request $request
+     * @param array $items
+     * @param int $itemsCount
+     * @return array
+     */
+    public static function generateResponseBody(string $type, Request $request, array $items, int $itemsCount): array
+    {
+        $page = $request->query->get('page', 1);
+        $limit = $request->query->get('limit', self::DEFAULT_MAX_RESULTS_BY_PAGE);
+        $uri = $request->getUri();
         $totalPages = self::totalPages($itemsCount, $limit);
         $selfPageLink = $uri;
         $firstPageLink = "{$uri}?page=1&limit={$limit}";
@@ -24,7 +28,7 @@ abstract class AbstractBaseController extends AbstractFOSRestController
         $nextPageLink = "{$uri}?page=".($page + 1)."&limit={$limit}";
         $lastPageLink = "{$uri}?page={$totalPages}&limit={$limit}";
 
-        return JsonResponse::create([
+        return [
             'data' => [
                 'type' => $type,
                 'items' => $items,
@@ -41,7 +45,7 @@ abstract class AbstractBaseController extends AbstractFOSRestController
                 'ItemsPerPage' => $limit,
                 'totalPages' => $totalPages,
             ],
-        ]);
+        ];
     }
 
     /**
