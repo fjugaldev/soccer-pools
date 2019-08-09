@@ -23,14 +23,15 @@ class ResponseSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $response = $event->getResponse();
         $content = json_decode($response->getContent(), true);
-
-        if ($request->getMethod() === 'GET' && $response->getStatusCode() === 200) {
-            $response->setContent(json_encode(JsonResponseHelper::generateResponseBody(
-                $content['type'],
-                $request,
-                $content['data']['items'],
-                $content['data']['itemsCount']
-            )));
+        if (strpos($request->getUri(), '/api/v1') !== false) {
+            if ($request->getMethod() === 'GET' && $response->getStatusCode() === 200) {
+                $response->setContent(json_encode(JsonResponseHelper::generateResponseBody(
+                    $content['type'],
+                    $request,
+                    $content['data']['items'],
+                    $content['data']['itemsCount']
+                )));
+            }
         }
     }
 }

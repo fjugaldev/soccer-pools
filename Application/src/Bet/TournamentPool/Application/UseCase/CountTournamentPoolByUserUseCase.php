@@ -2,7 +2,7 @@
 
 namespace InnovatikLabs\Bet\TournamentPool\Application\UseCase;
 
-use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
+use InnovatikLabs\Shared\Domain\Exception\MysqlRepositoryCountException;
 use InnovatikLabs\Shared\Domain\Query\QueryInterface;
 use InnovatikLabs\Shared\Domain\Query\UseCase\UseCaseQueryInterface;
 use InnovatikLabs\Shared\Infrastructure\UseCase\BaseUseCase;
@@ -13,9 +13,17 @@ class CountTournamentPoolByUserUseCase extends BaseUseCase implements UseCaseQue
      * @param QueryInterface $queryMessage
      *
      * @return int
+     *
+     * @throws MysqlRepositoryCountException
      */
     public function execute(QueryInterface $queryMessage): int
     {
-        return $this->handleMessage($queryMessage);
+        try {
+            return $this->handleMessage($queryMessage);
+        } catch (\Exception $exception) {
+            throw new MysqlRepositoryCountException(
+                "An error has occurred trying to count all tournament pools of user"
+            );
+        }
     }
 }

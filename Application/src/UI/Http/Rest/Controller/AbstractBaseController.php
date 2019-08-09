@@ -3,54 +3,40 @@
 namespace InnovatikLabs\UI\Http\Rest\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use InnovatikLabs\Shared\Domain\Persistence\Redis\RedisRepositoryInterface;
 
 abstract class AbstractBaseController extends AbstractFOSRestController
 {
-    const DEFAULT_MAX_RESULTS_BY_PAGE = 25;
+    /**
+     * @var RedisRepositoryInterface
+     */
+    private $redisRepository;
 
-    public static function generateJsonResponse(
-        string $type,
-        array $items,
-        int $itemsCount,
-        string $uri,
-        int $page,
-        int $limit
-    ): JsonResponse {
-        $totalPages = self::totalPages($itemsCount, $limit);
-        $selfPageLink = $uri;
-        $firstPageLink = "{$uri}?page=1&limit={$limit}";
-        $prevPageLink = "{$uri}?page=".$page === 1 ? $page : ($page - 1)."&limit={$limit}";
-        $nextPageLink = "{$uri}?page=".($page + 1)."&limit={$limit}";
-        $lastPageLink = "{$uri}?page={$totalPages}&limit={$limit}";
-
-        return JsonResponse::create([
-            'data' => [
-                'type' => $type,
-                'items' => $items,
-            ],
-            'links' => [
-                'self' => $selfPageLink,
-                'first' => $firstPageLink,
-                'prev' => $prevPageLink,
-                'next' => $nextPageLink,
-                'last' => $lastPageLink,
-            ],
-            'meta' => [
-                'currentPage' => $page,
-                'ItemsPerPage' => $limit,
-                'totalPages' => $totalPages,
-            ],
-        ]);
+    public function __construct(RedisRepositoryInterface $redisRepository)
+    {
+        $this->redisRepository = $redisRepository;
     }
 
     /**
-     * @param int $itemsCount
-     * @param int $limit
-     * @return int
+     * @param string $key
+     * @param $value
+     * @param int $ttl
+     * @param bool $isObject
      */
-    public static function totalPages(int $itemsCount, int $limit): int
+    public function save(string $key, $value, int $ttl = 0, bool $isObject = false)
     {
-        return ceil($itemsCount / $limit);
+        $isObject ? $this->redisRepository->setObject($key, $value, $ttl)
+            : $this->redisRepository->set($key, $value, $ttl);
+    }
+
+    /**
+     * @param string $key
+     * @param bool $isObject
+     *
+     * @return object|string|null
+     */
+    public function load(string $key, bool $isObject = false)
+    {
+        return $isObject ? $this->redisRepository->getObject($key) : $this->redisRepository->get($key);
     }
 }

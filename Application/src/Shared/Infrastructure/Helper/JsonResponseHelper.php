@@ -1,6 +1,5 @@
 <?php
 
-
 namespace InnovatikLabs\Shared\Infrastructure\Helper;
 
 use Symfony\Component\HttpFoundation\Request;

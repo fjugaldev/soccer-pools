@@ -6,9 +6,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use InnovatikLabs\Shared\Domain\Persistence\MySQLBaseRepositoryInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-abstract class MySQLBaseRepository extends ServiceEntityRepository
+abstract class MySQLBaseRepository extends ServiceEntityRepository implements MySQLBaseRepositoryInterface
 {
     public function __construct(RegistryInterface $registry, string $entityClass)
     {
@@ -23,10 +24,10 @@ abstract class MySQLBaseRepository extends ServiceEntityRepository
      */
     public function allPaginatedOrNull(QueryBuilder $qb, int $page, int $limit): ?Paginator
     {
-        $paginatedResults = self::paginate($qb, $page, $limit);
-        if ($paginatedResults->getQuery()->getMaxResults() == 0) return null;
+            $paginatedResults = self::paginate($qb, $page, $limit);
+            if ($paginatedResults->getQuery()->getMaxResults() == 0) return null;
 
-        return $paginatedResults;
+            return $paginatedResults;
     }
 
     /**

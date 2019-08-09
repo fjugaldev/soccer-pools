@@ -2,15 +2,15 @@
 
 namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
 use InnovatikLabs\Bet\TournamentPool\Application\Query\CountTournamentPoolByUserQuery;
 use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentByUserPoolQuery;
-use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolQuery;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\CountTournamentPoolByUserUseCase;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolByUserUseCase;
-use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolUseCase;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use InnovatikLabs\Shared\Domain\Exception\MysqlRepositoryCountException;
+use InnovatikLabs\Shared\Domain\Exception\MysqlRepositoryListException;
+use InnovatikLabs\Shared\Infrastructure\Helper\JsonResponseHelper;
 use InnovatikLabs\UI\Http\Rest\Controller\AbstractBaseController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -75,30 +75,51 @@ class TournamentPoolCRUDController extends AbstractBaseController
     public function list(Request $request, int $tournamentId, MessageBusInterface $messageBus): JsonResponse
     {
         $page = $request->query->get('page', 1);
-        $limit = $request->query->get('limit', self::DEFAULT_MAX_RESULTS_BY_PAGE);
+        $limit = $request->query->get('limit', JsonResponseHelper::DEFAULT_MAX_RESULTS_BY_PAGE);
 
-        $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus);
-        $itemsCount = $countUserTournamentPoolsUseCase->execute(
-            CountTournamentPoolByUserQuery::create($tournamentId, $this->getUser()->getId()));
+        try {
+            $key = 'count.tournament.'.$tournamentId.'.user.'.$this->getUser()->getId();
+            $itemsCount = (int) $this->load($key);
+            if (!$itemsCount) {
+                $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus);
+                $itemsCount = $countUserTournamentPoolsUseCase->execute(
+                    CountTournamentPoolByUserQuery::create($tournamentId, $this->getUser()->getId())
+                );
+                $this->save($key, $itemsCount, 300);
+            }
+        } catch (MysqlRepositoryCountException $exception) {
+            return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
+        }
 
-        $useCase = new ListTournamentPoolByUserUseCase($messageBus);
-        $items = $useCase->execute(
-            ListTournamentByUserPoolQuery::create(
-                $tournamentId,
-                $this->getUser()->getId(),
-                $page,
-                $limit
-            )
+        try {
+            $key = 'list.tournament.'.$tournamentId.'.user.'.$this->getUser()->getId();
+            $items = $this->load($key, true);
+            if (!$items) {
+                $useCase = new ListTournamentPoolByUserUseCase($messageBus);
+                $items = $useCase->execute(
+                    ListTournamentByUserPoolQuery::create(
+                        $tournamentId,
+                        $this->getUser()->getId(),
+                        $page,
+                        $limit
+                    )
+                );
+                $this->save($key, $items, 300, true);
+                dump('generado cache nuevo');
+            }
+        } catch (MysqlRepositoryListException $exception) {
+            return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        return JsonResponse::create(
+            [
+                'type' => 'TournamentPool',
+                'data' => [
+                    'items' => $items,
+                    'itemsCount' => $itemsCount,
+                ],
+            ]
         );
-
-        //return self::generateJsonResponse('TournamentPool', $items, $itemsCount, $request->getUri(), $page, $limit);
-        return JsonResponse::create([
-            'type' => 'TournamentPool',
-            'data' => [
-                'items' => $items,
-                'itemsCount' => $itemsCount
-            ],
-        ]);
     }
 
     /**
