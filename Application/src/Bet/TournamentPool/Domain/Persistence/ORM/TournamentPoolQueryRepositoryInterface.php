@@ -8,18 +8,18 @@ use Ramsey\Uuid\UuidInterface;
 interface TournamentPoolQueryRepositoryInterface
 {
     /**
-     * @param string $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $ownerId
      * @param int $page
      * @param int $limit
      * @return TournamentPoolView[]|null
      */
-    public function allTournamentPoolsOfUserOrNull(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): ?array;
+    public function allTournamentPoolsOfUserOrNull(UuidInterface $tournamentId, UuidInterface $ownerId, int $page, int $limit): ?array;
 
     /**
-     * @param string $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $ownerId
      * @return int
      */
-    public function countAllTournamentPoolsOfUser(string $tournamentId, UuidInterface $ownerId): int;
+    public function countAllTournamentPoolsOfUser(UuidInterface $tournamentId, UuidInterface $ownerId): int;
 }

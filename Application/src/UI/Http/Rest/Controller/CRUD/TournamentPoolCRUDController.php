@@ -3,7 +3,7 @@
 namespace InnovatikLabs\UI\Http\Rest\Controller\CRUD;
 
 use InnovatikLabs\Bet\TournamentPool\Application\Query\CountTournamentPoolByUserQuery;
-use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentByUserPoolQuery;
+use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolByUserQuery;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\CountTournamentPoolByUserUseCase;
 use InnovatikLabs\Bet\TournamentPool\Application\UseCase\ListTournamentPoolByUserUseCase;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
@@ -14,6 +14,7 @@ use InnovatikLabs\Shared\Infrastructure\Helper\JsonResponseHelper;
 use InnovatikLabs\UI\Http\Rest\Controller\AbstractBaseController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
+use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,25 +68,24 @@ class TournamentPoolCRUDController extends AbstractBaseController
      * @Security(name="Bearer")
      *
      * @param Request $request
-     * @param int $tournamentId
+     * @param string $tournamentId
      * @param MessageBusInterface $messageBus
      *
      * @return JsonResponse
      */
-    public function list(Request $request, int $tournamentId, MessageBusInterface $messageBus): JsonResponse
+    public function list(Request $request, string $tournamentId, MessageBusInterface $messageBus): JsonResponse
     {
         $page = $request->query->get('page', 1);
         $limit = $request->query->get('limit', JsonResponseHelper::DEFAULT_MAX_RESULTS_BY_PAGE);
-
         try {
             $key = 'count.tournament.'.$tournamentId.'.user.'.$this->getUser()->getId();
             $itemsCount = (int) $this->load($key);
             if (!$itemsCount) {
                 $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus);
                 $itemsCount = $countUserTournamentPoolsUseCase->execute(
-                    CountTournamentPoolByUserQuery::create($tournamentId, $this->getUser()->getId())
+                    CountTournamentPoolByUserQuery::create(Uuid::fromString($tournamentId), $this->getUser()->getId())
                 );
-                $this->save($key, $itemsCount, 300);
+                $this->save($key, $itemsCount, self::TTL_ONE_DAY);
             }
         } catch (MysqlRepositoryCountException $exception) {
             return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
@@ -97,15 +97,14 @@ class TournamentPoolCRUDController extends AbstractBaseController
             if (!$items) {
                 $useCase = new ListTournamentPoolByUserUseCase($messageBus);
                 $items = $useCase->execute(
-                    ListTournamentByUserPoolQuery::create(
-                        $tournamentId,
+                    ListTournamentPoolByUserQuery::create(
+                        Uuid::fromString($tournamentId),
                         $this->getUser()->getId(),
                         $page,
                         $limit
                     )
                 );
-                $this->save($key, $items, 300, true);
-                dump('generado cache nuevo');
+                $this->save($key, $items, self::TTL_ONE_DAY, true);
             }
         } catch (MysqlRepositoryListException $exception) {
             return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);

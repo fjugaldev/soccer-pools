@@ -10,7 +10,7 @@ use InnovatikLabs\Shared\Infrastructure\Persistence\MySQLBaseRepository;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class TournamentPoolQueryRepository extends MySQLBaseRepository implements TournamentPoolQueryRepositoryInterface
+final class TournamentPoolQueryRepository extends MySQLBaseRepository implements TournamentPoolQueryRepositoryInterface
 {
     /**
      * @var TournamentPoolAdapter
@@ -24,17 +24,19 @@ class TournamentPoolQueryRepository extends MySQLBaseRepository implements Tourn
     }
 
     /**
-     * @param string $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $ownerId
      * @param int $page
      * @param int $limit
      * @return TournamentPoolView[]|null
      */
-    public function allTournamentPoolsOfUserOrNull(string $tournamentId, UuidInterface $ownerId, int $page, int $limit): ?array
+    public function allTournamentPoolsOfUserOrNull(UuidInterface $tournamentId, UuidInterface $ownerId, int $page, int $limit): ?array
     {
         $qb = $this->createQueryBuilder('tp')
             ->where('tp.owner = :ownerId')
-            ->setParameter('ownerId', $ownerId->getBytes());
+            ->andWhere('tp.tournament = :tournamentId')
+            ->setParameter('ownerId', $ownerId->getBytes())
+            ->setParameter('tournamentId', $tournamentId->getBytes());
         $paginatedResults = self::allPaginatedOrNull($qb, $page, $limit);
 
         $tournamentPools = [];
@@ -46,16 +48,18 @@ class TournamentPoolQueryRepository extends MySQLBaseRepository implements Tourn
     }
 
     /**
-     * @param string $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $ownerId
      * @return int
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function countAllTournamentPoolsOfUser(string $tournamentId, UuidInterface $ownerId): int
+    public function countAllTournamentPoolsOfUser(UuidInterface $tournamentId, UuidInterface $ownerId): int
     {
         $qb = $this->createQueryBuilder('tp')
             ->where('tp.owner = :ownerId')
-            ->setParameter('ownerId', $ownerId->getBytes());
+            ->andWhere('tp.tournament = :tournamentId')
+            ->setParameter('ownerId', $ownerId->getBytes())
+            ->setParameter('tournamentId', $tournamentId->getBytes());
 
         return $qb
             ->select('count(tp.id)')

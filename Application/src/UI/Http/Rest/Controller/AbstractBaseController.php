@@ -7,6 +7,8 @@ use InnovatikLabs\Shared\Domain\Persistence\Redis\RedisRepositoryInterface;
 
 abstract class AbstractBaseController extends AbstractFOSRestController
 {
+    const TTL_ONE_DAY = 86400;
+
     /**
      * @var RedisRepositoryInterface
      */

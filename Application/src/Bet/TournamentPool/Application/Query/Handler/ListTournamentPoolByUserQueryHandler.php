@@ -2,7 +2,7 @@
 
 namespace InnovatikLabs\Bet\TournamentPool\Application\Query\Handler;
 
-use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentByUserPoolQuery;
+use InnovatikLabs\Bet\TournamentPool\Application\Query\ListTournamentPoolByUserQuery;
 use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPoolView;
 use InnovatikLabs\Bet\TournamentPool\Domain\Persistence\ORM\TournamentPoolQueryRepositoryInterface;
 use InnovatikLabs\Shared\Domain\Query\Handler\QueryHandlerInterface;
@@ -20,10 +20,10 @@ final class ListTournamentPoolByUserQueryHandler implements QueryHandlerInterfac
     }
 
     /**
-     * @param ListTournamentByUserPoolQuery $query
+     * @param ListTournamentPoolByUserQuery $query
      * @return TournamentPoolView[]
      */
-    public function __invoke(ListTournamentByUserPoolQuery $query): ?array
+    public function __invoke(ListTournamentPoolByUserQuery $query): ?array
     {
         return $this->repository->allTournamentPoolsOfUserOrNull(
             $query->getTournamentId(),

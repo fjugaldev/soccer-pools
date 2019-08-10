@@ -18,29 +18,29 @@ final class CountTournamentPoolByUserQuery implements QueryInterface
     protected $userId;
 
     /**
-     * @param int $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $userId
      */
-    private function __construct(int $tournamentId, UuidInterface $userId)
+    private function __construct(UuidInterface $tournamentId, UuidInterface $userId)
     {
         $this->tournamentId = $tournamentId;
         $this->userId = $userId;
     }
 
     /**
-     * @param int $tournamentId
+     * @param UuidInterface $tournamentId
      * @param UuidInterface $userId
      * @return CountTournamentPoolByUserQuery
      */
-    public static function create(int $tournamentId, UuidInterface $userId): CountTournamentPoolByUserQuery
+    public static function create(UuidInterface $tournamentId, UuidInterface $userId): CountTournamentPoolByUserQuery
     {
         return new self($tournamentId, $userId);
     }
 
     /**
-     * @return int
+     * @return UuidInterface
      */
-    public function getTournamentId(): int
+    public function getTournamentId(): UuidInterface
     {
         return $this->tournamentId;
     }
