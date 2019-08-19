@@ -10,6 +10,7 @@ use InnovatikLabs\Bet\TournamentPool\Domain\Model\TournamentPool;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use InnovatikLabs\Shared\Domain\Exception\MysqlRepositoryCountException;
 use InnovatikLabs\Shared\Domain\Exception\MysqlRepositoryListException;
+use InnovatikLabs\Shared\Domain\Persistence\Redis\RedisRepositoryInterface;
 use InnovatikLabs\Shared\Infrastructure\Helper\JsonResponseHelper;
 use InnovatikLabs\UI\Http\Rest\Controller\AbstractBaseController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -71,41 +72,32 @@ class TournamentPoolCRUDController extends AbstractBaseController
      * @param string $tournamentId
      * @param MessageBusInterface $messageBus
      *
+     * @param RedisRepositoryInterface $redisRepository
      * @return JsonResponse
      */
-    public function list(Request $request, string $tournamentId, MessageBusInterface $messageBus): JsonResponse
+    public function list(Request $request, string $tournamentId, MessageBusInterface $messageBus, RedisRepositoryInterface $redisRepository): JsonResponse
     {
         $page = $request->query->get('page', 1);
         $limit = $request->query->get('limit', JsonResponseHelper::DEFAULT_MAX_RESULTS_BY_PAGE);
         try {
-            $key = 'count.tournament.'.$tournamentId.'.user.'.$this->getUser()->getId();
-            $itemsCount = (int) $this->load($key);
-            if (!$itemsCount) {
-                $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus);
-                $itemsCount = $countUserTournamentPoolsUseCase->execute(
-                    CountTournamentPoolByUserQuery::create(Uuid::fromString($tournamentId), $this->getUser()->getId())
-                );
-                $this->save($key, $itemsCount, self::TTL_ONE_DAY);
-            }
+            $countUserTournamentPoolsUseCase = new CountTournamentPoolByUserUseCase($messageBus, $redisRepository);
+            $itemsCount = $countUserTournamentPoolsUseCase->execute(
+                CountTournamentPoolByUserQuery::create(Uuid::fromString($tournamentId), $this->getUser()->getId())
+            );
         } catch (MysqlRepositoryCountException $exception) {
             return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
-            $key = 'list.tournament.'.$tournamentId.'.user.'.$this->getUser()->getId();
-            $items = $this->load($key, true);
-            if (!$items) {
-                $useCase = new ListTournamentPoolByUserUseCase($messageBus);
-                $items = $useCase->execute(
-                    ListTournamentPoolByUserQuery::create(
-                        Uuid::fromString($tournamentId),
-                        $this->getUser()->getId(),
-                        $page,
-                        $limit
-                    )
-                );
-                $this->save($key, $items, self::TTL_ONE_DAY, true);
-            }
+            $useCase = new ListTournamentPoolByUserUseCase($messageBus, $redisRepository);
+            $items = $useCase->execute(
+                ListTournamentPoolByUserQuery::create(
+                    Uuid::fromString($tournamentId),
+                    $this->getUser()->getId(),
+                    $page,
+                    $limit
+                )
+            );
         } catch (MysqlRepositoryListException $exception) {
             return JsonResponse::create($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
