@@ -27,6 +27,7 @@ class ListTournamentPoolByUserUseCase extends BaseUseCase implements UseCaseQuer
                 $items = $this->handleMessage($queryMessage);
                 $this->save($key, $items, self::TTL_ONE_DAY, true);
             }
+
             return $items;
         } catch (\Exception $exception) {
             throw new MysqlRepositoryListException(
